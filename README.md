@@ -1,6 +1,20 @@
 # Whale-CNN
 Convolutional Neural Network to Recognize Right Whale Upcalls
 
+Hyperparameter Optimization was conducted using 3-Fold Cross Validation
+For example: Tuning the number of neurons in the fully-connected layer 
+
+| Neurons               | Mean Accuracy  | Std(Accuracy) | 
+|-----------------------|----------------|---------------|
+| 100                   | 0.9611         | 0.004162      | 
+| 125                   | 0.9620         | 0.004944      | 
+| 150                   | 0.9583         | 0.003391      | 
+| 175                   | 0.9615         | 0.005162      | 
+| **200**               | **0.9633**     | **0.003427**  | 
+| 225                   | 0.9581         | 0.008134      | 
+| 250                   | 0.9603         | 0.001154      | 
+
+**Best: Neurons = 0.9825, Mean = 0.9633, Std = 0.003427**
 
 | Epoch                 | Loss        | Accuracy    | ROC_AUC     | 
 |-----------------------|-------------|-------------|-------------|
