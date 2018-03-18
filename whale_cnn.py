@@ -14,6 +14,7 @@ import scipy
 import pylab as pl
 import os
 from sklearn.metrics import roc_auc_score
+from sklearn.model_selection import GridSearchCV
 from matplotlib import mlab
 from keras.wrappers.scikit_learn import KerasClassifier
 from keras.callbacks import Callback
