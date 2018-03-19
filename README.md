@@ -20,7 +20,7 @@ The Kaggle challenge was to differentiate between short audio recordings of ambi
 Modules and Installation Instructions
 =========================
 
-**"Standard" Modules Used (Included in Anaconda Distribution):** numpy, glob, aifc, os
+**"Standard" Modules Used (Included in Anaconda Distribution):** numpy, matplotlib, pylab, glob, aifc, os
 
 If necessary, these modules can also be installed via PyPI. For example, for the "numpy" module: 
 
