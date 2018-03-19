@@ -6,15 +6,13 @@ python tuning.py
 
 import whale_cnn
 import numpy as np
-import matplotlib.pyplot as plt
 import glob
 from skimage.transform import resize
 import aifc
-import scipy.signal as sp
-import scipy
 import pylab as pl
 import os
 from sklearn.metrics import roc_auc_score
+from sklearn.model_selection import GridSearchCV
 from matplotlib import mlab
 from keras.wrappers.scikit_learn import KerasClassifier
 from keras.callbacks import Callback
@@ -26,8 +24,6 @@ from keras.utils import plot_model
 from matplotlib.pyplot import imshow
 import keras.backend as K
 K.set_image_data_format('channels_last')
-get_ipython().magic('matplotlib inline')
-plt.rcParams['figure.figsize'] = (13,5)
 
 # The following general approach to hyperparameter optimization using GridSearchCV 
 # and a sklearn wrapper for Keras is based on:
