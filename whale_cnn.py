@@ -3,12 +3,9 @@
 '''
 
 import numpy as np
-import matplotlib.pyplot as plt
 import glob
 from skimage.transform import resize
 import aifc
-import scipy.signal as sp
-import scipy
 import pylab as pl
 import os
 from sklearn.metrics import roc_auc_score
@@ -24,8 +21,6 @@ from keras.utils import plot_model
 from matplotlib.pyplot import imshow
 import keras.backend as K
 K.set_image_data_format('channels_last')
-get_ipython().magic('matplotlib inline')
-plt.rcParams['figure.figsize'] = (13,5)
 
 # roc_callback class from: https://github.com/keras-team/keras/issues/3230#issuecomment-319208366
 class roc_callback(Callback):
