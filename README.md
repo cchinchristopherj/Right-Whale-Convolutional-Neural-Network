@@ -1,8 +1,63 @@
-# Whale-CNN
+Whale Convolutional Neural Network 
+=========================
+
 Convolutional Neural Network to Recognize Right Whale Upcalls
 
-Hyperparameter Optimization was conducted using 3-Fold Cross Validation
-For example: Tuning the number of neurons in the fully-connected layer 
+Uses the dataset and labels constructed for [Kaggle 2013 ICML Whale Challenge](https://www.kaggle.com/c/the-icml-2013-whale-challenge-right-whale-redux)
+
+The training dataset for [Kaggle 2013 ICML Whale Challenge](https://www.kaggle.com/c/the-icml-2013-whale-challenge-right-whale-redux) can be accessed [here](https://www.kaggle.com/c/the-icml-2013-whale-challenge-right-whale-redux/data) by selecting "train_2.zip" and clicking "Download"
+
+The Kaggle challenge was to differentiate between short audio recordings of ambient noise vs right whale upcalls. A Convolutional Neural Network approach was chosen, with the final model architecture depicted in the attached "cnn-architecture.png" file:
+- A spectrogram was first taken of every audio file in the training set 
+- The spectrogram's contrast was enhanced both horizontally (temporal dimension) and vertically (frequency dimension) by removing extreme values and implementing a sliding mean. Performing these two pre-processing steps separately on the original training set resulted in a new dataset twice as long.
+- All spectrograms were resized to (64x64x1) to ensure uniformity in input shape and facilitate input to the CNN 
+- The CNN model's hyperparameters were optimized through 3-Fold Cross Validation via GridSearchCV
+- The CNN was fit using the new, double-length, contrast-enhanced training set (84000 audio files). 
+- The test set consisted of 10000 audio files (~10% of the training set size) unseen by the CNN model. For prediction, a vertically-enhanced and horizontally-enhanced spectrogram was produced for each audio file and fed into the CNN. A "union" approach was taken, i.e. if the vertically-enhanced input yielded 1 and the horizontally-enhanced input yielded 0, the final predicted label was 1. 
+- Due to the unbalance between the sizes of the positive class (right whale upcall) and negative class (ambient noise), with the negative class being significantly larger, accuracy is not as useful a metric for model evaluation. (For example, a model that consistently predicted the negative class would yield a high accuracy, but fail to ever predict the positive class). The Receiver Operating Characteristic (ROC) curve was instead chosen for evaluation, being a measure of the true positive rate vs false positive rate as the discrimination threshold of the binary classifier is varied. The area under the curve (AUC) is a single number metric of a binary classifier's ROC curve and it is this ROC-AUC score that is used for evaluation of the CNN model. 
+- The final ROC-AUC score for the test set after 45 epochs and a batch size of 100 was: **98.25%**
+
+Modules and Installation Instructions
+=========================
+
+**Modules used:** midiutil, pygame, argparse, fluidsynth(optional)  
+
+Correct Usage
+=========================
+
+My trained CNN model architecture and weights are saved in the "whale_cnn.h5" file. This file can be loaded using the command:
+
+    loaded_model = load_model('whale_cnn.h5')  
+    
+Note: "load_model" is a function from keras.models. 
+With this model loaded, you can follow the procedure as described in training.py to predict the label of a new audio file that may or may not contain a right whale upcall. 
+Note: Currently, code is not streamlined to predict the label of a new audio file not originating from train_2.zip (i.e. a new audio file from the user). A future implementation will most likely use sklearn's Pipeline to streamline this prediction process by automatically taking an input audio file, producing the vertically-enhanced and horizontally-enhanced spectrograms, feeding them into the CNN, and unioning the predicted labels to produce the final predicted label. 
+
+If you would like to replicate the process I used to train the CNN model, perform the following:
+First, download the training set "train_2.zip" from [here](https://www.kaggle.com/c/the-icml-2013-whale-challenge-right-whale-redux/data) to the desired directory on your computer.
+Then run:
+
+    python training.py 
+    
+This trains the weights of the CNN model on the dataset. With the "model" variable referring to the sklearn-wrapped Keras model, this trained model can be saved to your computer using the command:
+
+    model.model.save('whale_cnn.h5')  
+    
+Note: Since "model" has an sklearn wrapper, you must use model.model.save instead of model.save (as you would for a normal Keras model) to save it to your computer. 
+
+Code is also provided demonstrating my hyperparameter optimization process via GridSearchCV. If you would like to replicate this procedure to tune the number of neurons in the CNN model's fully-connected layer, first download the training set "train_2.zip" from [here](https://www.kaggle.com/c/the-icml-2013-whale-challenge-right-whale-redux/data) if not previously downloaded. 
+Then run:
+
+    python tuning.py 
+    
+This prints the best score and corresponding parameter (best # of neurons) found by GridSearchCV, along with the mean scores and standard deviation of the scores found for all of the other parameters. 
+Note: For simplicity, these "scores" produced by GridSearchCV were accuracy-based, which is not ideal metric due to the nature of this particular dataset, as described previously. A future implementation will use the ROC-AUC scores for hyperparameter tuning. 
+
+Results for tuning.py
+=========================
+
+Hyperparameter Optimization was conducted using GridSearchCV's default 3-Fold Cross Validation in tuning.py 
+The printed results were as follows, with the best accuracy associated with 200 neurons in the fully connected layer. This is the number of neurons used in the final model architecture. 
 
 | Neurons               | Mean Accuracy  | Std(Accuracy) | 
 |-----------------------|----------------|---------------|
@@ -16,7 +71,12 @@ For example: Tuning the number of neurons in the fully-connected layer
 
 **Best: Neurons = 0.9825, Mean = 0.9633, Std = 0.003427**
 
-| Epoch                 | Loss        | Accuracy    | ROC_AUC     | 
+Results for training.py
+=========================
+
+The CNN model was trained for 45 epochs and a batch size of 100 on a training set of 84000 audio files (42000 vertically-enhanced spectrograms and 42000 horizontally-enhanced spectrograms). Training took approximately 8 hours on a MacBook Pro (2017). The test set consisted of 10000 audio files (5000 vertically-enhanced spectrograms and 5000 horizontally-enhanced spectrograms). The loss, accuracy, and ROC-AUC score evaluated by Keras for every epoch during training is depicted below. The final ROC-AUC score for the training set after 45 epochs was found to be 98.63%, while the ROC-AUC score for the test set was found to be 98.25%.
+
+| Epoch                 | Loss        | Accuracy    | ROC-AUC     | 
 |-----------------------|-------------|-------------|-------------|
 | 1/45                  | 0.1761      | 0.9424      | 0.965       | 
 | 2/45                  | 0.1199      | 0.9582      | 0.9717      | 
