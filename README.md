@@ -7,7 +7,7 @@ Uses the dataset and labels constructed for [Kaggle 2013 ICML Whale Challenge](h
 
 The training dataset for [Kaggle 2013 ICML Whale Challenge](https://www.kaggle.com/c/the-icml-2013-whale-challenge-right-whale-redux) can be accessed [here](https://www.kaggle.com/c/the-icml-2013-whale-challenge-right-whale-redux/data) by selecting "train_2.zip" and clicking "Download"
 
-The Kaggle challenge was to differentiate between short audio recordings of ambient noise vs right whale upcalls. A Convolutional Neural Network approach was chosen, with the final model architecture depicted in the attached "cnn-architecture.png" file:
+The Kaggle challenge was to differentiate between short audio recordings of ambient noise vs right whale upcalls. A Convolutional Neural Network approach was chosen:
 - A spectrogram was first taken of every audio file in the training set 
 - The spectrogram's contrast was enhanced both horizontally (temporal dimension) and vertically (frequency dimension) by removing extreme values and implementing a sliding mean. Performing these two pre-processing steps separately on the original training set resulted in a new dataset twice as long.
 - All spectrograms were resized to (64x64x1) to ensure uniformity in input shape and facilitate input to the CNN 
@@ -131,8 +131,8 @@ perspective of the same spectrogram for input to the classifier.*
 Results of Tuning
 =========================
 
-Hyperparameter Optimization was conducted using GridSearchCV's default 3-Fold Cross Validation in tuning.py 
-The printed results were as follows, with the best accuracy associated with 200 neurons in the fully connected layer. This is the number of neurons used in the final model architecture. 
+Hyperparameter Optimization was conducted using GridSearchCV's default 3-Fold Cross Validation 
+As an example, the number of neurons in the fully-connected layer was tuned using this method in tuning.py. The printed results were as follows, with the best accuracy associated with 200 neurons. This is the number of neurons used in the final model architecture. 
 
 | Neurons               | Mean Accuracy  | Std(Accuracy) | 
 |-----------------------|----------------|---------------|
@@ -145,6 +145,10 @@ The printed results were as follows, with the best accuracy associated with 200 
 | 250                   | 0.9603         | 0.001154      | 
 
 **Best: Neurons = 200, Mean = 0.9633, Std = 0.003427**
+
+The final model architecture is as depicted below: 
+
+![cnn_architecture](https://github.com/cchinchristopherj/Right-Whale-Convolutional-Neural-Network/blob/test-branch/Images/cnn_architecture.png)
 
 Results of Training
 =========================
