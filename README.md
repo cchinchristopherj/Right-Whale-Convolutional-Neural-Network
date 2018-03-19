@@ -132,7 +132,7 @@ Results of Tuning
 =========================
 
 Hyperparameter Optimization was conducted using GridSearchCV's default 3-Fold Cross Validation 
-As an example, the number of neurons in the fully-connected layer was tuned using this method in tuning.py. The printed results were as follows, with the best accuracy associated with 200 neurons. This is the number of neurons used in the final model architecture. 
+As an example, the number of neurons in the fully-connected layer ("fc1" in the diagram below) was tuned using this method in tuning.py. The printed results were as follows, with the best accuracy associated with 200 neurons. This is the number of neurons used in the final model architecture. 
 
 | Neurons               | Mean Accuracy  | Std(Accuracy) | 
 |-----------------------|----------------|---------------|
@@ -146,7 +146,8 @@ As an example, the number of neurons in the fully-connected layer was tuned usin
 
 **Best: Neurons = 200, Mean = 0.9633, Std = 0.003427**
 
-The final model architecture is as depicted below: 
+
+The final tuned model architecture is as depicted below: 
 
 ![cnn_architecture](https://github.com/cchinchristopherj/Right-Whale-Convolutional-Neural-Network/blob/test-branch/Images/cnn_architecture.png)
 
