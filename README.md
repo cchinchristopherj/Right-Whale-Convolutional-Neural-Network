@@ -71,19 +71,19 @@ Results of Pre-Processing
 Pre-Processing involved generation of spectrograms with vertically-enhanced contrast and horizontally-enhanced contrast for input to the CNN. Below is an example of an audio file with right whale upcall present before and after pre-processing.
 
 - Spectrogram of an audio file with right whale upcall (original before pre-processing):
-![upcall_original](https://github.com/cchinchristopherj/Whale-CNN/blob/test-branch/Images/Upcall/upcall_original%5B93%5D.png)
+![upcall_original](https://github.com/cchinchristopherj/Right-Whale-Convolutional-Neural-Network/blob/master/Images/Upcall/upcall_original%5B93%5D.png)
 
 *Note: You can see a faint diagonal upward trajectory in the spectrogram from about 0.50 to 1.25 seconds that indicates the 
 presence of the right whale upcall. This feature was enhanced in the following two images.*
 
 - Spectrogram of the original audio file with vertically-enhanced contrast via the "SlidingWindowV" function in "whale_cnn.py":
-![upcall_v_enhanced](https://github.com/cchinchristopherj/Whale-CNN/blob/test-branch/Images/Upcall/upcall_v_enhanced%5B93%5D.png)
+![upcall_v_enhanced](https://github.com/cchinchristopherj/Right-Whale-Convolutional-Neural-Network/blob/master/Images/Upcall/upcall_v_enhanced%5B93%5D.png)
 
 *Note: The vertically-enhanced contrast emphasizes the upcall feature in the frequency domain, removing extreme values and 
 local means to facilitate classification.*
 
 - Spectrogram of the original audio file with horizontally-enhanced contrast via the "SlidingWindowH" function in "whale_cnn.py":
-![upcall_h_enhanced](https://github.com/cchinchristopherj/Whale-CNN/blob/test-branch/Images/Upcall/upcall_h_enhanced%5B93%5D.png)
+![upcall_h_enhanced](https://github.com/cchinchristopherj/Right-Whale-Convolutional-Neural-Network/blob/master/Images/Upcall/upcall_h_enhanced%5B93%5D.png)
 
 *Note: The horizontally-enhanced contrast emphasizes the upcall feature in the temporal domain and offers a different 
 perspective of the same spectrogram for input to the classifier.*
@@ -91,19 +91,19 @@ perspective of the same spectrogram for input to the classifier.*
 For comparison, below is an example of an audio file with right whale upcall absent (solely ambient noise) before and after pre-processing.
 
 - Spectrogram of an audio file with right whale upcall absent (original before pre-processing):
-![ambient1_original](https://github.com/cchinchristopherj/Whale-CNN/blob/test-branch/Images/Ambient1/ambient1_original%5B0%5D.png)
+![ambient1_original](https://github.com/cchinchristopherj/Right-Whale-Convolutional-Neural-Network/blob/master/Images/Ambient1/ambient1_original%5B0%5D.png)
 
 *Note: At first glance with no pre-processing, there are no distinguishable features in the image, only a background
 of low frequency ambient ocean noise.*
 
 - Spectrogram of the original audio file with vertically-enhanced contrast via the "SlidingWindowV" function in "whale_cnn.py":
-![ambient1_v_enhanced](https://github.com/cchinchristopherj/Whale-CNN/blob/test-branch/Images/Ambient1/ambient1_v_enhanced%5B0%5D.png)
+![ambient1_v_enhanced](https://github.com/cchinchristopherj/Right-Whale-Convolutional-Neural-Network/blob/master/Images/Ambient1/ambient1_v_enhanced%5B0%5D.png)
 
 *Note: The vertically-enhanced contrast removes extreme values and local means to facilitate classification. A small noise
 feature from 0.8 to 1.0 seconds is emphasized. By comparison with the spectrograms of ambient noise (2 of 2), which empahsize a different shape of noise feature, there are a large variety of noise feature shapes that the classifier must learn to distinguish from features characteristic of right whale upcalls.*
 
 - Spectrogram of the original audio file with horizontally-enhanced contrast via the "SlidingWindowH" function in "whale_cnn.py":
-![ambient1_h_enhanced](https://github.com/cchinchristopherj/Whale-CNN/blob/test-branch/Images/Ambient1/ambient1_h_enhanced%5B0%5D.png)
+![ambient1_h_enhanced](https://github.com/cchinchristopherj/Right-Whale-Convolutional-Neural-Network/blob/master/Images/Ambient1/ambient1_h_enhanced%5B0%5D.png)
 
 *Note: The horizontally-enhanced contrast emphasizes the noise feature in the temporal domain and offers a different 
 perspective of the same spectrogram for input to the classifier.*
@@ -111,19 +111,19 @@ perspective of the same spectrogram for input to the classifier.*
 For further comparison, below is another example of an audio with right whale upcall absent (solely ambient noise) before and after pre-processing.
 
 - Spectrogram of an audio file with right whale upcall absent (original before pre-processing):
-![ambient2_original](https://github.com/cchinchristopherj/Whale-CNN/blob/test-branch/Images/Ambient2/ambient2_original%5B1%5D.png)
+![ambient2_original](https://github.com/cchinchristopherj/Right-Whale-Convolutional-Neural-Network/blob/master/Images/Ambient2/ambient2_original%5B1%5D.png)
 
 *Note: At first glance with no pre-processing, there are no distinguishable features in the image, only a background
 of low frequency ambient ocean noise.*
 
 - Spectrogram of the original audio file with vertically-enhanced contrast via the "SlidingWindowV" function in "whale_cnn.py":
-![ambient2_v_enhanced](https://github.com/cchinchristopherj/Whale-CNN/blob/test-branch/Images/Ambient2/ambient2_v_enhanced%5B1%5D.png)
+![ambient2_v_enhanced](hhttps://github.com/cchinchristopherj/Right-Whale-Convolutional-Neural-Network/blob/master/Images/Ambient2/ambient2_v_enhanced%5B1%5D.png)
 
 *Note: The vertically-enhanced contrast removes extreme values and local means to facilitate classification. A small noise
 feature from 0.50 to 1.50 seconds is emphasized. By comparison with the spectrograms of ambient noise (1 of 2), which emphasize a different shape of noise feature, there are a large variety of noise feature shapes that the classifier must learn to distinguish from features characteristic of right whale upcalls.*
 
 - Spectrogram of the original audio file with horizontally-enhanced contrast via the "SlidingWindowH" function in "whale_cnn.py":
-![ambient2_h_enhanced](https://github.com/cchinchristopherj/Whale-CNN/blob/test-branch/Images/Ambient2/ambient2_h_enhanced%5B1%5D.png)
+![ambient2_h_enhanced](https://github.com/cchinchristopherj/Right-Whale-Convolutional-Neural-Network/blob/master/Images/Ambient2/ambient2_h_enhanced%5B1%5D.png)
 
 *Note: The horizontally-enhanced contrast emphasizes the noise feature in the temporal domain and offers a different 
 perspective of the same spectrogram for input to the classifier.*
@@ -149,7 +149,7 @@ As an example, the number of neurons in the fully-connected layer ("fc1" in the 
 
 The final tuned model architecture is as depicted below: 
 
-![cnn_architecture](https://github.com/cchinchristopherj/Right-Whale-Convolutional-Neural-Network/blob/test-branch/Images/cnn_architecture.png)
+![cnn_architecture](https://github.com/cchinchristopherj/Right-Whale-Convolutional-Neural-Network/blob/master/Images/cnn_architecture.png)
 
 Results of Training
 =========================
