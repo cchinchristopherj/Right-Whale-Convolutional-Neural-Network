@@ -20,7 +20,19 @@ The Kaggle challenge was to differentiate between short audio recordings of ambi
 Modules and Installation Instructions
 =========================
 
-**Modules used:** midiutil, pygame, argparse, fluidsynth(optional)  
+**"Standard" Modules Used (Included in Anaconda Distribution):** numpy, glob, aifc, os
+
+If necessary, these modules can also be installed via PyPI. For example, for the "numpy" module: 
+
+        pip install numpy
+
+**Additional Modules used:** skimage, sklearn, keras
+
+skimage and sklearn can be installed via PyPI. For example, for the "scikit-image" module:
+
+        pip install scikit-image
+
+For Keras, follow the instructions given in the [documentation](https://keras.io/#installation). Specifically, install the TensorFlow backend and, of the optional dependencies, install HDF5 and h5py if you would like to load and save your Keras models. 
 
 Correct Usage
 =========================
