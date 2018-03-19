@@ -6,9 +6,8 @@ Spectrograms of Ambient Noise (1 of 2)
 of low frequency ambient ocean noise.*
 - "ambient1_v_enhanced[0].png" is a spectrogram of the original audio file with vertically-enhanced contrast via the 
 "SlidingWindowV" function in "whale_cnn.py"
-- *Note: The vertically-enhanced contrast removes extreme values and local means to facilitate classification. A small 
-feature from 0.8 to 1.0 seconds is emphasized, which the classifier will learn to distinguish from features characteristic
-of right whale upcalls.*
+- *Note: The vertically-enhanced contrast removes extreme values and local means to facilitate classification. A small noise
+feature from 0.8 to 1.0 seconds is emphasized. By comparison with the spectrograms of ambient noise (2 of 2), which empahsize a different shape of noise feature, there are a large variety of noise feature shapes that the classifier must learn to distinguish from features characteristic of right whale upcalls.*
 - "ambient1_h_enhanced[0].png" is a spectrogram of the original audio file with horizontally-enhanced contrast via the 
 "SlidingWindowH" function in "whale_cnn.py"
 - *Note: The horizontally-enhanced contrast emphasizes the noise feature in the temporal domain and offers a different 
