@@ -81,7 +81,7 @@ The printed results were as follows, with the best accuracy associated with 200 
 | 225                   | 0.9581         | 0.008134      | 
 | 250                   | 0.9603         | 0.001154      | 
 
-**Best: Neurons = 0.9825, Mean = 0.9633, Std = 0.003427**
+**Best: Neurons = 200, Mean = 0.9633, Std = 0.003427**
 
 Results for training.py
 =========================
