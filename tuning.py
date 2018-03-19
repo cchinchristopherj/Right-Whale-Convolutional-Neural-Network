@@ -29,6 +29,9 @@ K.set_image_data_format('channels_last')
 get_ipython().magic('matplotlib inline')
 plt.rcParams['figure.figsize'] = (13,5)
 
+# The following general approach to hyperparameter optimization using GridSearchCV 
+# and a sklearn wrapper for Keras is based on:
+# https://machinelearningmastery.com/grid-search-hyperparameters-deep-learning-models-python-keras/
 def create_model(neurons=100):
     ''' create_model Method
             CNN Model for Right Whale Upcall Recognition 
