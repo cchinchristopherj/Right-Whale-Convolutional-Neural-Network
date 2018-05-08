@@ -9,7 +9,7 @@ The training dataset for [Kaggle 2013 ICML Whale Challenge](https://www.kaggle.c
 
 The final tuned model architecture is as depicted below: 
 
-![cnn_architecture](https://github.com/cchinchristopherj/Right-Whale-Convolutional-Neural-Network/blob/master/Images/cnn_architecture.png)
+![cnn_architecture](https://github.com/cchinchristopherj/Right-Whale-Convolutional-Neural-Network/blob/cchinchristopherj-patch-1/Unsupervised-Learning/Images/cnn_architecture_unsup.png)
 
 Results of Training
 =========================
