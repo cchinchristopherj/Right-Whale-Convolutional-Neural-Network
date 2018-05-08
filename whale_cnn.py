@@ -25,10 +25,10 @@ K.set_image_data_format('channels_last')
 # roc_callback class from: https://github.com/keras-team/keras/issues/3230#issuecomment-319208366
 class roc_callback(Callback):
     ''' roc_callback Class
-            Uses keras.callbacks.Callback abstract base class to build new callbacks 
-            for visualization of internal states/statistics of the CNN model 
-            during training. In this case, print the roc_auc score (from sklearn)
-            for every epoch during training 
+        Uses keras.callbacks.Callback abstract base class to build new callbacks 
+        for visualization of internal states/statistics of the CNN model 
+        during training. In this case, print the roc_auc score (from sklearn)
+        for every epoch during training 
     '''
     def __init__(self,training_data):
         ''' __init__ Method 
@@ -38,20 +38,25 @@ class roc_callback(Callback):
                 training dataset and the second element of which is the training
                 labels  
         '''  
+        super(roc_callback,self).__init__()
         self.x = training_data[0]
         self.y = training_data[1]
-        
-    # The following three methods are not necessary for calculating the roc_auc 
-    # score. Threfore, simply return 
     def on_train_begin(self, logs={}):
-        return
-
+        ''' on_train_begin Method 
+            
+            Args:
+                logs: Dictionary containing keys for quantities relevant 
+                to current epoch 
+        '''  
+        # Add the metric "roc_auc_val" if it does not already exist 
+        if not('roc_auc_val' in self.params['metrics']):
+            self.params['metrics'].append('roc_auc_val')
+    # The following two methods are not necessary for calculating the roc_auc 
+    # score. Threfore, simply return 
     def on_train_end(self, logs={}):
         return
-
     def on_epoch_begin(self, epoch, logs={}):
         return
-    
     def on_epoch_end(self, epoch, logs={}):
         ''' on_epoch_end Method 
             
@@ -60,19 +65,19 @@ class roc_callback(Callback):
                 logs: Dictionary containing keys for quantities relevant 
                 to current epoch 
         '''  
-        # Use CNN model to predict labels for the training dataset 
+        # Initialize the value of "roc_auc_val" to -inf so that the first calculated value 
+        # registers as an improvement in the value of "roc_auc_val" for the EarlyStopping
+        # Callback
+        logs['roc_auc_val'] = float('-inf')
         y_pred = self.model.predict(self.x)
-        # Compute the roc_auc score using the predicted labels and 
-        # ground truth training labels 
         roc = roc_auc_score(self.y, y_pred)
+        logs['roc_auc_val'] = roc
         print('\rroc-auc: %s' % (str(round(roc,4))),end=100*' '+'\n')
         return
-
     # The following two methods are not necessary for calculating the roc_auc 
     # score. Threfore, simply return 
     def on_batch_begin(self, batch, logs={}):
         return
-
     def on_batch_end(self, batch, logs={}):
         return
     
