@@ -151,3 +151,36 @@ layer_toset = model.get_layer('conv1')
 filters = centroids_1.transpose((2,3,1,0))
 filters = filters[numpy.newaxis,...]
 layer_toset.set_weights(filters)
+
+# Now that the model is correctly instantiated with all learned filters, initiate training
+# Use the ModelCheckpoint callback to save model weights only when there is an improvement in 
+# "roc_auc_val" score. Save the weights to "model_filepath."
+model_filepath = 'weights.best.hdf5'
+checkpoint = ModelCheckpoint(model_filepath,monitor='roc_auc_val',verbose=1,save_best_only=True,mode='max')
+# Stop training early if the "roc_auc_val" score does not improve for 5 epochs using the 
+# EarlyStopping callback
+early_stopping = EarlyStopping(monitor='roc_auc_val',patience=5,mode='max')
+# Use the roc_callback class for training. Every epoch, calculate the "roc_auc_val" 
+# score on the "X_testV" dataset using "Y_test" as labels. This score is representative 
+# of the "roc_auc_val" score on the test set (actual test "roc_auc_val" score 
+# calculated after fitting)
+validation_train = X_testV
+validation_labels = Y_test
+callbacks_list = [roc_callback(training_data=(validation_train,validation_labels)),checkpoint,early_stopping]
+# Fit the model using the callbacks list for 500 epochs and a batch size of 100
+model.fit(model_train,model_labels,callbacks=callbacks_list,epochs=500,batch_size=100)
+# To calculate the test "roc_auc_val" score: 
+# Generate predicted labels for the vertically-enhanced test feature matrix and
+# predicted labels for the horizontally-enhanced test feature matrix. 
+# The final predicted label is the union of these two predicted labels. 
+# For example, if the vertically-enhanced image predicts label 0, but the 
+# horizontally-enhanced version of the same image predicts label 1, the label is
+# determined to be label 1. If both sets predict label 0, the label is 0. If both sets
+# predict 1, the label is 1. The union operation is implemented by adding both
+# predicted label vectors and setting the maximum value to 1
+Y_predV = model.predict(X_testV)
+Y_predH = model.predict(X_testH)
+Y_pred = Y_predV + Y_predH 
+Y_pred[Y_pred>1] = 1
+score = roc_auc_score(Y_test,Y_predV)
+print('Test ROC_AUC Score = ' + str(score))
