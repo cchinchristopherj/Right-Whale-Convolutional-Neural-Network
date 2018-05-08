@@ -181,6 +181,10 @@ def create_model(num_groups,group_size,kernel_size,input_shape,connections_1f,co
     model.compile(optimizer=opt,loss='binary_crossentropy',metrics=['accuracy'])
     return model
 
+# Use the data() method from whale_cnn.py to generate the training and test datasets 
+# and labels
+X_train, Y_train, X_testV, X_testH, Y_test = data()
+
 # Parameters for Training Model:
 # Size of Filters (kernel_size x kernel_size) in Keras model for all convolutional layers
 kernel_size= 7
