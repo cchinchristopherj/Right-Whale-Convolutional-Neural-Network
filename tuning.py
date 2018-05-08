@@ -61,32 +61,9 @@ def create_model(neurons=100):
     model.compile(optimizer=sgd,loss='binary_crossentropy',metrics=['accuracy'])
     return model
 
-# Spectrogram parameters 
-params = {'NFFT':256,'Fs':2000,'noverlap':192}
-# Load in the audio files from the training dataset
-path = 'Documents/Bioacoustics_MachineLearning/train2'
-filenames = glob.glob(path+'/*.aif')
-# Use a subset of the ~47000 files in the training dataset for hyperparameter 
-# optimization
-num_files = 5000
-# For each audio file, extract the spectrograms with vertically-enhanced contrast 
-# separately from the spectrograms with horizontally-enhanced contrast. This in 
-# effect doubles the amount of data for tuning, and presents the CNN with different 
-# perspectives of the same spectrogram image of the original audio file 
-training_featuresV = np.array([extract_featuresV(x,params=params) for x in filenames[0:num_files]])
-training_featuresH = np.array([extract_featuresH(x,params=params) for x in filenames[0:num_files]])
-# Concatenate the two feature matrices together to form a double-length feature matrix
-X_train = np.append(training_featuresV,training_featuresH,axis=0)
-# Axis 0 indicates the number of examples, Axis 1 and 2 are the features (64x64 image
-# spectrograms). Add Axis 3 to indicate 1 channel (depth of 1 for spectrogram image) for 
-# compatibility with Keras CNN model 
-X_train = X_train[:,:,:,np.newaxis]
-# Extract labels for the training dataset. Since the vertically-enhanced and 
-# horizontally-enhanced images are concatenated to form a training dataset twice as long,
-# append a duplicate copy of the training labels to form a training label vector 
-# twice as long 
-Y_train = np.array([extract_labels(x) for x in filenames[0:num_files]])
-Y_train = np.append(Y_train,Y_train)
+# Use the data() method from whale_cnn.py to generate the training and test datasets 
+# and labels
+X_train, Y_train, X_testV, X_testH, Y_test = data()
 
 # Use sklearn wrapper on the Keras model to be able to use sklearn methods 
 # such as GridSearchCV
