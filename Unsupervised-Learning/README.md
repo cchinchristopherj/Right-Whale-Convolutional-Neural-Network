@@ -7,6 +7,10 @@ Uses the dataset and labels constructed for [Kaggle 2013 ICML Whale Challenge](h
 
 The training dataset for [Kaggle 2013 ICML Whale Challenge](https://www.kaggle.com/c/the-icml-2013-whale-challenge-right-whale-redux) can be accessed [here](https://www.kaggle.com/c/the-icml-2013-whale-challenge-right-whale-redux/data) by selecting "train_2.zip" and clicking "Download"
 
+The final tuned model architecture is as depicted below: 
+
+![cnn_architecture](https://github.com/cchinchristopherj/Right-Whale-Convolutional-Neural-Network/blob/master/Images/cnn_architecture.png)
+
 Results of Training
 =========================
 
