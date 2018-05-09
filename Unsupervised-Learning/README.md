@@ -31,34 +31,27 @@ The final tuned model architecture for Model 2 is as depicted below:
 Correct Usage
 =========================
 
-My trained CNN model architecture and weights are saved in the "whale_cnn.h5" file. This file can be loaded using the command:
+My trained CNN model architectures and weights are saved in the "model_v1.h5" and "model_v2.h5" files. "model_v1.h5", for exmaple, can be loaded using the command:
 
-    loaded_model = load_model('whale_cnn.h5')  
+    loaded_model = load_model('model_v1.h5')  
     
 Note: "load_model" is a function from keras.models. 
-With this model loaded, you can follow the procedure as described in training.py to predict the label of a new audio file that may or may not contain a right whale upcall. 
-Note: Currently, code is not streamlined to predict the label of a new audio file not originating from train_2.zip (i.e. a new audio file from the user). A future implementation will most likely use sklearn's Pipeline to streamline this prediction process by automatically taking an input audio file, producing the vertically-enhanced and horizontally-enhanced spectrograms, feeding them into the CNN, and unioning the predicted labels to produce the final predicted label. 
+With this model loaded, you can use follow the procedure as described in training_v1.py or training_v2.py to predict the label of a new audio file that may or may not contain a right whale upcall. 
 
-If you would like to replicate the process I used to train the CNN model, perform the following:
+If you would like to replicate the process I used to train the CNN models, perform the following:
 First, download the training set "train_2.zip" from [here](https://www.kaggle.com/c/the-icml-2013-whale-challenge-right-whale-redux/data) to the desired directory on your computer.
-Then run:
+Then run either:
 
-    python training.py 
+    python training_v1.py 
     
-This trains the weights of the CNN model on the dataset. With the "model" variable referring to the sklearn-wrapped Keras model, this trained model can be saved to your computer using the command:
+or:
 
-    model.model.save('whale_cnn.h5')  
+    python training_v2.py 
     
-Note: Since "model" has an sklearn wrapper, you must use model.model.save instead of model.save (as you would for a normal Keras model) to save it to your computer. 
+This constructs the CNN model architectures, trains the filters unsupervised via K-Means, and trains the weights on the dataset. This trained model can be saved to your computer using the command:
 
-Code is also provided demonstrating my hyperparameter optimization process via GridSearchCV. If you would like to replicate this procedure to tune the number of neurons in the CNN model's fully-connected layer, first download the training set "train_2.zip" from [here](https://www.kaggle.com/c/the-icml-2013-whale-challenge-right-whale-redux/data) if not previously downloaded. 
-Then run:
-
-    python tuning.py 
+    model.save('whale_cnn.h5')  
     
-This prints the best score and corresponding parameter (best # of neurons) found by GridSearchCV, along with the mean scores and standard deviation of the scores found for all of the other parameters. 
-Note: For simplicity, these "scores" produced by GridSearchCV were accuracy-based, which is not ideal metric due to the nature of this particular dataset, as described previously. A future implementation will use the ROC-AUC scores for hyperparameter tuning. 
-
 Filter Visualization (0th Layer)
 =========================
 
