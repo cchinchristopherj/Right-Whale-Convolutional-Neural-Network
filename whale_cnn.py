@@ -30,17 +30,17 @@ class roc_callback(Callback):
         during training. In this case, print the roc_auc score (from sklearn)
         for every epoch during training 
     '''
-    def __init__(self,training_data):
+    def __init__(self,validation_data):
         ''' __init__ Method 
             
             Args:
                 training_data: 2 element tuple, the first element of which is the 
-                training dataset and the second element of which is the training
-                labels  
+                test dataset and the second element of which is the test
+                labels for calculating the roc_auc score
         '''  
         super(roc_callback,self).__init__()
-        self.x = training_data[0]
-        self.y = training_data[1]
+        self.x = validation_data[0]
+        self.y = validation_data[1]
     def on_train_begin(self, logs={}):
         ''' on_train_begin Method 
             
