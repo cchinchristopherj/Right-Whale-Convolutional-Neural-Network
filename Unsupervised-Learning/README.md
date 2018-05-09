@@ -56,7 +56,8 @@ Filter Visualization (0th Layer)
 =========================
 
 The filters of the 0th convolutional layer in CNNs (applied to the raw input images) are often "human-interpretable" and have patterns that are easy to correlate with patterns of the input images. Both Model 1 and Model 2 learn the same number of filters (256) in the same manner via K-Means for the 0th layer. Examine a visualization of these filters in the grid below:
-![filters_unsup](https://github.com/cchinchristopherj/Right-Whale-Convolutional-Neural-Network/blob/cchinchristopherj-patch-1/Unsupervised-Learning/Images/filters_unsup.png)
+
+![filters_unsup](https://github.com/cchinchristopherj/Right-Whale-Convolutional-Neural-Network/blob/master/Unsupervised-Learning/Images/filters_unsup.png)
 
 *Note: Many patches appear to have patterns from the higher-intensity, brightly yellow-colored areas of the spectrogram containing a right whale upcall. Note, however, that other patches also appear to have be monochromatic and duller-colored - more representative of spectrograms with ambient noise. This is a product of the process used to train the filters via K-Means: Equal number of samples from the positive class (right whalle upcall) and negative class (ambient noise) were given to the algorithm to learn centroids, resulting in patches representative of both types of images. Including samples from both classes, as opposed to just including samples from the positive class, was found to boost classifier performance. 
 
