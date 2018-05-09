@@ -36,7 +36,13 @@ My trained CNN model architecture and weights for Model 2 are saved in the "mode
     loaded_model = load_model('model_v2.h5')  
     
 Note: "load_model" is a function from keras.models. 
-With this model loaded, you can use follow the procedure as described in training_v1.py or training_v2.py to predict the label of a new audio file that may or may not contain a right whale upcall. 
+With this model loaded, you can follow the procedure as described in training_v2.py to predict the label of a new audio file that may or may not contain a right whale upcall. 
+
+Due to the complicated architecture of Model 1, it is not possible to directly load the model using Keras' "load_model" command. Instead, use the "model_v1_load.py" function to first re-create the model architecture, then load in the weights to the appropriate layers: 
+
+    python model_v1_load.py 
+    
+With this model loaded, you can once again follow the procedure as described in training_v1.py to predict the label of a new audio file.
 
 If you would like to replicate the process I used to train the CNN models, perform the following:
 First, download the training set "train_2.zip" from [here](https://www.kaggle.com/c/the-icml-2013-whale-challenge-right-whale-redux/data) to the desired directory on your computer.
@@ -48,9 +54,9 @@ or:
 
     python training_v2.py 
     
-This constructs the CNN model architectures, trains the filters unsupervised via K-Means, and trains the weights on the dataset. This trained model can be saved to your computer using the command:
+This constructs the CNN model architectures of Model 1 or Model 2, respectively, trains the filters unsupervised via K-Means, and trains the weights on the dataset. This trained model can be saved to your computer using the command:
 
-    model.save('whale_cnn.h5')  
+    model.save('model.h5')  
     
 Filter Visualization (0th Layer)
 =========================
@@ -61,10 +67,36 @@ The filters of the 0th convolutional layer in CNNs (applied to the raw input ima
 
 *Note: Many patches appear to have patterns from the higher-intensity, brightly yellow-colored areas of the spectrogram containing a right whale upcall. Note, however, that other patches also appear to have be monochromatic and duller-colored - more representative of spectrograms with ambient noise. This is a product of the process used to train the filters via K-Means: Equal number of samples from the positive class (right whalle upcall) and negative class (ambient noise) were given to the algorithm to learn centroids, resulting in patches representative of both types of images. Including samples from both classes, as opposed to just including samples from the positive class, was found to boost classifier performance. 
 
-Results of Training
+Results of Training for Model 1
 =========================
 
-The CNN model was trained for 16 epochs and a batch size of 100 on a training set of 84000 audio files (42000 vertically-enhanced spectrograms and 42000 horizontally-enhanced spectrograms). Training took approximately 50 minutes on a Tesla K80 GPU (via FloydHub Cloud Service). The test set consisted of 10000 audio files (5000 vertically-enhanced spectrograms and 5000 horizontally-enhanced spectrograms). The loss and accuracy of the training set, and ROC-AUC score of the test set, are evaluated by Keras for every epoch during training and depicted below. The final ROC-AUC score for the training set after 16 epochs was found to be 96.07%, while the ROC-AUC score for the test set was found to be 95.97%.
+Model 1 was trained for 16 epochs and a batch size of 100 on a training set of 84000 audio files (42000 vertically-enhanced spectrograms and 42000 horizontally-enhanced spectrograms). Training took approximately 50 minutes on a Tesla K80 GPU (via FloydHub Cloud Service). The test set consisted of 10000 audio files (5000 vertically-enhanced spectrograms and 5000 horizontally-enhanced spectrograms). The loss and accuracy of the training set, and ROC-AUC score of the test set, are evaluated by Keras for every epoch during training and depicted below. The final ROC-AUC score for the training set after 16 epochs was found to be 96.07%, while the ROC-AUC score for the test set was found to be 95.97%.
+
+| Epoch                 | Loss        | Accuracy    | ROC-AUC     | 
+|-----------------------|-------------|-------------|-------------|
+| 1/16                  | 0.2313      | 0.9210      | 0.9354      | 
+| 2/16                  | 0.1953      | 0.9303      | 0.9370      | 
+| 3/16                  | 0.1870      | 0.9314      | 0.9420      | 
+| 4/16                  | 0.1802      | 0.9330      | 0.9439      | 
+| 5/16                  | 0.1768      | 0.9339      | 0.9368      | 
+| 6/16                  | 0.1728      | 0.9339      | 0.9405      | 
+| 7/16                  | 0.1720      | 0.9339      | 0.9419      | 
+| 8/16                  | 0.1710      | 0.9344      | 0.9472      | 
+| 9/16                  | 0.1686      | 0.9349      | 0.9383      | 
+| 10/16                 | 0.1661      | 0.9357      | 0.9491      | 
+| 11/16                 | 0.1650      | 0.9364      | 0.9375      | 
+| 12/16                 | 0.1636      | 0.9378      | 0.9476      | 
+| 13/16                 | 0.1623      | 0.9423      | 0.9395      | 
+| 14/16                 | 0.1597      | 0.9414      | 0.9437      | 
+| 15/16                 | 0.1594      | 0.9421      | 0.9433      | 
+| 16/16                 | 0.1592      | 0.9423      | 0.9411      | 
+
+**Test ROC_AUC Score = 0.9507**
+
+Results of Training for Model 2
+=========================
+
+Model 2 was trained for 16 epochs and a batch size of 100 on a training set of 84000 audio files (42000 vertically-enhanced spectrograms and 42000 horizontally-enhanced spectrograms). Training took approximately 50 minutes on a Tesla K80 GPU (via FloydHub Cloud Service). The test set consisted of 10000 audio files (5000 vertically-enhanced spectrograms and 5000 horizontally-enhanced spectrograms). The loss and accuracy of the training set, and ROC-AUC score of the test set, are evaluated by Keras for every epoch during training and depicted below. The final ROC-AUC score for the training set after 16 epochs was found to be 96.07%, while the ROC-AUC score for the test set was found to be 95.97%.
 
 | Epoch                 | Loss        | Accuracy    | ROC-AUC     | 
 |-----------------------|-------------|-------------|-------------|
