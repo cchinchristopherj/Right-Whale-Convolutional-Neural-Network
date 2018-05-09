@@ -1,3 +1,9 @@
+'''
+Usage:
+python model_v1_load.py
+'''
+# Re-create Model 1 architecture and load in weights to appropriate layers
+
 import whale_cnn
 import whale_cnn_unsup
 import numpy 
@@ -139,15 +145,22 @@ def create_model(num_groups,group_size,kernel_size,input_shape,connections_1f):
     model = Model(inputs=X_input,outputs=X_output)
     model.compile(optimizer=opt,loss='binary_crossentropy',metrics=['accuracy'])
     return model
+
+# Use the data() method from whale_cnn.py to load in the training and test datasets and 
+# labels 
 X_train,Y_train,X_testV,Y_test = data()
-validation_train = X_testV
-validation_labels = Y_test
+# Parameters for the model: 
 kernel_size = 7
 num_groups_f = 32
 group_size_f = 8
 input_shape = (X_train.shape[1],X_train.shape[2],X_train.shape[3])
+# Load in the connections_1f matrix I used to train the model (must use this matrix 
+# otherwise the model will not have the correct architecture for loading in the 
+# weights). 
 connections_1f = numpy.loadtxt('connections_1f.txt',delimiter=',')
 connections_1f = connections_1f.astype(int)
+# Re-create the model with the correct architecture 
 model = create_model(num_groups_f,group_size_f,kernel_size,input_shape,connections_1f)
+# Load in the weights I obtained from training to the appropriate layers in the model
 model.load_weights('model_v1_weights.hdf5',by_name=True)
 
