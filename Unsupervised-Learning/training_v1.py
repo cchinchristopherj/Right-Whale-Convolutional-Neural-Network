@@ -1,3 +1,9 @@
+'''
+Usage:
+python training_v1.py
+'''
+# Create Model 1 architecture and train weights on dataset 
+
 import whale_cnn
 import whale_cnn_unsup
 import numpy 
