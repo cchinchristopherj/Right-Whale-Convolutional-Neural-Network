@@ -14,32 +14,26 @@ The final tuned model architecture is as depicted below:
 Results of Training
 =========================
 
-The CNN model was trained for 22 epochs and a batch size of 100 on a training set of 84000 audio files (42000 vertically-enhanced spectrograms and 42000 horizontally-enhanced spectrograms). Training took approximately 1 hour 10 minutes on a Tesla K80 GPU (via FloydHub Cloud Service). The test set consisted of 10000 audio files (5000 vertically-enhanced spectrograms and 5000 horizontally-enhanced spectrograms). The loss and accuracy of the training set, and ROC-AUC score of the test set, are evaluated by Keras for every epoch during training and depicted below. The final ROC-AUC score for the training set after 22 epochs was found to be 98.63%, while the ROC-AUC score for the test set was found to be 98.25%.
+The CNN model was trained for 16 epochs and a batch size of 100 on a training set of 84000 audio files (42000 vertically-enhanced spectrograms and 42000 horizontally-enhanced spectrograms). Training took approximately 50 minutes on a Tesla K80 GPU (via FloydHub Cloud Service). The test set consisted of 10000 audio files (5000 vertically-enhanced spectrograms and 5000 horizontally-enhanced spectrograms). The loss and accuracy of the training set, and ROC-AUC score of the test set, are evaluated by Keras for every epoch during training and depicted below. The final ROC-AUC score for the training set after 16 epochs was found to be 94.91%, while the ROC-AUC score for the test set was found to be 94.91%.
 
 | Epoch                 | Loss        | Accuracy    | ROC-AUC     | 
 |-----------------------|-------------|-------------|-------------|
-| 1/22                  | 0.1761      | 0.9424      | 0.965       | 
-| 2/22                  | 0.1199      | 0.9582      | 0.9717      | 
-| 3/22                  | 0.1085      | 0.9624      | 0.9768      | 
-| 4/22                  | 0.1026      | 0.9635      | 0.9783      | 
-| 5/22                  | 0.1003      | 0.9636      | 0.9793      | 
-| 6/22                  | 0.0974      | 0.9644      | 0.9811      | 
-| 7/22                  | 0.0963      | 0.9651      | 0.9805      | 
-| 8/22                  | 0.0955      | 0.9661      | 0.9821      | 
-| 9/22                  | 0.0943      | 0.9658      | 0.9822      | 
-| 10/22                 | 0.0928      | 0.9665      | 0.9826      | 
-| 11/22                 | 0.0902      | 0.9675      | 0.9831      | 
-| 12/22                 | 0.0912      | 0.9670      | 0.9828      | 
-| 13/22                 | 0.0904      | 0.9671      | 0.9835      | 
-| 14/22                 | 0.0895      | 0.9674      | 0.9825      | 
-| 15/22                 | 0.0901      | 0.9664      | 0.9841      | 
-| 16/22                 | 0.0898      | 0.9673      | 0.9846      | 
-| 17/22                 | 0.0878      | 0.9680      | 0.9844      | 
-| 18/22                 | 0.0893      | 0.9673      | 0.9847      | 
-| 19/22                 | 0.0872      | 0.9681      | 0.9848      | 
-| 20/22                 | 0.0865      | 0.9865      | 0.9848      | 
-| 21/22                 | 0.0854      | 0.9689      | 0.9837      | 
-| 22/22                 | 0.0859      | 0.9685      | 0.9845      | 
+| 1/16                  | 0.2313      | 0.9210      | 0.9354      | 
+| 2/16                  | 0.1953      | 0.9303      | 0.9370      | 
+| 3/16                  | 0.1870      | 0.9314      | 0.9420      | 
+| 4/16                  | 0.1802      | 0.9330      | 0.9439      | 
+| 5/16                  | 0.1768      | 0.9339      | 0.9368      | 
+| 6/16                  | 0.1728      | 0.9339      | 0.9405      | 
+| 7/16                  | 0.1720      | 0.9339      | 0.9419      | 
+| 8/16                  | 0.1710      | 0.9344      | 0.9472      | 
+| 9/16                  | 0.1686      | 0.9349      | 0.9383      | 
+| 10/16                 | 0.1661      | 0.9357      | 0.9491      | 
+| 11/16                 | 0.1650      | 0.9364      | 0.9375      | 
+| 12/16                 | 0.1636      | 0.9378      | 0.9476      | 
+| 13/16                 | 0.1623      | 0.9423      | 0.9395      | 
+| 14/16                 | 0.1597      | 0.9414      | 0.9437      | 
+| 15/16                 | 0.1594      | 0.9421      | 0.9433      | 
+| 16/16                 | 0.1592      | 0.9423      | 0.9411      | 
 
-**Test ROC_AUC Score = 0.9502**
+**Test ROC_AUC Score = 0.9491**
 
