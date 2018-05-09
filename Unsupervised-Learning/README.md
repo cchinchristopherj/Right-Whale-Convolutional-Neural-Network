@@ -31,9 +31,9 @@ The final tuned model architecture for Model 2 is as depicted below:
 Correct Usage
 =========================
 
-My trained CNN model architectures and weights are saved in the "model_v1.h5" and "model_v2.h5" files. "model_v1.h5", for exmaple, can be loaded using the command:
+My trained CNN model architecture and weights for Model 2 are saved in the "model_v2.h5" file. This file can be loaded using the command:
 
-    loaded_model = load_model('model_v1.h5')  
+    loaded_model = load_model('model_v2.h5')  
     
 Note: "load_model" is a function from keras.models. 
 With this model loaded, you can use follow the procedure as described in training_v1.py or training_v2.py to predict the label of a new audio file that may or may not contain a right whale upcall. 
