@@ -281,7 +281,6 @@ def data():
                          (Number of Samples=5000, Height=64, Width=64, Number of Filters=1)
                 Y_test: Test labels of Shape:
                         (Number of Samples=5000)
-
     '''
     # Spectrogram parameters 
     params = {'NFFT':256,'Fs':2000,'noverlap':192}
