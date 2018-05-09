@@ -166,7 +166,7 @@ early_stopping = EarlyStopping(monitor='roc_auc_val',patience=5,mode='max')
 # calculated after fitting)
 validation_train = X_testV
 validation_labels = Y_test
-callbacks_list = [roc_callback(training_data=(validation_train,validation_labels)),checkpoint,early_stopping]
+callbacks_list = [roc_callback(validation_data=(validation_train,validation_labels)),checkpoint,early_stopping]
 # Fit the model using the callbacks list for 500 epochs and a batch size of 100
 model.fit(model_train,model_labels,callbacks=callbacks_list,epochs=500,batch_size=100)
 # To calculate the test "roc_auc_val" score: 
