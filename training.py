@@ -68,7 +68,7 @@ model = KerasClassifier(build_fn=create_model,epochs=45,batch_size=100)
 
 # Fit the model using training data and use the roc_callback class to print
 # roc_auc score every epoch 
-model.fit(X_train,Y_train,callbacks=[roc_callback(training_data=(X_train,Y_train))])
+model.fit(X_train,Y_train,callbacks=[roc_callback(validation_data=(X_testV,Y_test))])
 # Generate predicted labels for the vertically-enhanced test feature matrix and
 # predicted labels for the horizontally-enhanced test feature matrix. 
 # The final predicted label is the union of these two predicted labels. 
