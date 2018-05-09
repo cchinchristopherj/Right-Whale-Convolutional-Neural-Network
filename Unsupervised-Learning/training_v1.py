@@ -18,7 +18,7 @@ import keras
 import keras.backend as K
 K.set_image_data_format('channels_last')
 
-def create_model(num_groups,group_size,kernel_size,input_shape,connections_1f,connections_2f):
+def create_model(num_groups,group_size,kernel_size,input_shape,connections_1f):
     ''' create_model Method
             CNN Model for Right Whale Upcall Recognition with filters learned through K-Means
             and energy-correlated receptive fields
@@ -33,8 +33,6 @@ def create_model(num_groups,group_size,kernel_size,input_shape,connections_1f,co
                 connections_1f: 2-D matrix of connections created by "learn_connections_unsup"
                                 comprised of "num_groups" rows and "group_size" columns, for
                                 the first layer
-                connections_2f: 2-D matrix of connections created by "learn_connections_unsup"
-                                for the second layer
             
             Returns: 
                 Compiled Keras CNN Model
@@ -125,45 +123,17 @@ def create_model(num_groups,group_size,kernel_size,input_shape,connections_1f,co
         # results to be concatenated
         layers_1_final.extend([layer for layer in layers_1_maxpool[ii].values()])
     X_maps2 = keras.layers.concatenate(layers_1_final,name='final1')
-    # Generate the main dictionaries 
-    layers_2 = dict()
-    layers_2_lambda = dict()
-    layers_2_reshape = dict()
-    layers_2_maxpool = dict()
-    for ii in range(num_groups):
-        # Generate the sub-dictionaries
-        layers_2[ii] = dict()
-        layers_2_lambda[ii] = dict()
-        layers_2_reshape[ii] = dict()
-        layers_2_maxpool[ii] = dict()
-        for jj in range(group_size):
-            # For each group, compile each feature map member individually using the Lambda
-            # and Reshape layers
-            layers_2_lambda[ii]['X_lambda_'+str(ii)+'_'+str(jj)] = Lambda(lambda X: X[:,:,:,connections_2f[ii,jj]],name='lambda2_'+str(ii)+'_'+str(jj))(X_maps2)
-            layers_2_reshape[ii]['X_reshape_'+str(ii)+'_'+str(jj)] = Reshape((*K.int_shape(layers_2_lambda[ii]['X_lambda_'+str(ii)+'_'+str(jj)])[1:3],1),name='reshape2_'+str(ii)+'_'+str(jj))(layers_2_lambda[ii]['X_lambda_'+str(ii)+'_'+str(jj)])
-        # Concatenate the feature maps for the group under consideration into one set
-        layers_2_concat = [layer for layer in layers_2_reshape[ii].values()]
-        layers_2[ii]['X_concat_'+str(ii)] = keras.layers.concatenate(layers_2_concat,name='concat2_'+str(ii))
-        layers_2[ii]['X_batchnorm_'+str(ii)] = BatchNormalization(axis=3,name='bn2_'+str(ii))(layers_1[ii]['X_concat_'+str(ii)])
-        # Apply the learned filters (group_size of them) to each of these 
-        # smaller feature map groups
-        layers_2[ii]['X_conv2d_'+str(ii)] = Conv2D(filters=group_size,kernel_size=kernel_size,use_bias=False,activation='relu',name='conv2_'+str(ii),trainable=False)(layers_2[ii]['X_batchnorm_'+str(ii)])
-        layers_2_maxpool[ii]['X_maxpool2d_'+str(ii)] = MaxPooling2D(pool_size=(2,2),name='maxpool2_'+str(ii))(layers_2[ii]['X_conv2d_'+str(ii)])
-    # Concatenate the results for all the groups into one set.
-    layers_2_final = []
-    for ii in range(num_groups):
-        layers_2_final.extend([layer for layer in layers_2_maxpool[ii].values()])
-    X_maps3 = keras.layers.concatenate(layers_2_final,name='final2')
     # Flatten the output from the first, second, and third layers
     X_maps1_f = Flatten(name='flatten1')(X_maps1)
     X_maps2_f = Flatten(name='flatten2')(X_maps2)
-    X_maps3_f = Flatten(name='flatten3')(X_maps3)
     # Concatenate the flattened outputs into one feature vector
-    X_maps = keras.layers.concatenate([X_maps1_f,X_maps2_f,X_maps3_f],name='final3')
+    X_maps = keras.layers.concatenate([X_maps1_f,X_maps2_f],name='final_concat')
+    # Pass the full feature vector to the first fully connected layer 
+    X = Dense(200,activation='relu',name='dense1')(X_maps)
     # Dropout on the fully connected layer (1 in 2 probability of dropout) 
-    X = Dropout(0.5,name='dropout3')(X_maps)
-    # Feed the feature vector into the Dense layer for binary classification
-    X_output = Dense(1,activation='sigmoid',name='fc1')(X)
+    X = Dropout(0.5,name='dropout3')(X)
+    # Pass to the second fully connected layer for binary classification
+    X_output = Dense(1,activation='sigmoid',name='dense2')(X)
     # Use Adam optimizer
     opt = Adam(lr=0.0001,beta_1=0.9,beta_2=0.999,decay=0.01)
     model = Model(inputs=X_input,outputs=X_output)
@@ -178,20 +148,18 @@ X_train, Y_train, X_testV, X_testH, Y_test = data()
 # Size of Filters (kernel_size x kernel_size) in Keras model for all convolutional layers
 kernel_size= 7
 # Number of groups of filters 
-num_groups_f = 64
+num_groups_f = 32
 # Number of feature maps in each group
-group_size_f = 4
+group_size_f = 8
 # Input Shape: (Number of Samples, Height, Width, Number of Filters)
 input_shape = (X_train.shape[1],X_train.shape[2],X_train.shape[3])
-# Instantiate arrays for connections matrices as the expected sizes so that the Keras
+# Instantiate array for connection matrix as the expected size so that the Keras
 # model can be instantiated with the proper architecture. These values will be changed
 # once the connections are learned, and the model updated with these learned values
 connections_1f = numpy.arange(num_groups_f*group_size_f).reshape(num_groups_f,group_size_f)
 connections_1f = numpy.asarray(connections_1f,numpy.int32)
-connections_2f = numpy.arange(num_groups_f*group_size_f).reshape(num_groups_f,group_size_f)
-connections_2f = numpy.asarray(connections_2f,numpy.int32)
 # Instantiate the Keras model with the proper architecture
-model = create_model(num_groups_f,group_size_f,kernel_size,input_shape,connections_1f,connections_2f)
+model = create_model(num_groups_f,group_size_f,kernel_size,input_shape,connections_1f)
 # "k_train" is the set of samples fed to K-Means to learn filters unsupervised
 k_train = X_train.transpose((0,3,1,2))
 # The "separate_trainlabels" function shuffles the training set (and training labels),  
@@ -271,7 +239,7 @@ k_train = output_0_connected[k_train_indices]
 # a total of num_groups_f*group_size_f filters in the next layer.
 centroids_1 = MiniBatchKMeansAutoConv(k_train,(kernel_size,kernel_size),0.5,group_size_f,[0])
 # Re-instantiate the model with the newly-set connections_1f and connections_1m 
-model = create_model(num_groups_f,group_size_f,kernel_size,input_shape,connections_1f,connections_2f)
+model = create_model(num_groups_f,group_size_f,kernel_size,input_shape,connections_1f)
 # Since the model is re-instantiated, re-set the filters for "conv_0" 
 layer_toset = model.get_layer('conv0')
 filters = centroids_0.transpose((2,3,1,0))
@@ -285,51 +253,6 @@ layer_toset.set_weights(filters)
 for ii in range(num_groups_f):
     layer_toset = model.get_layer('conv1_'+str(ii))
     filters = centroids_1.transpose((2,3,1,0))
-    filters = filters[numpy.newaxis,...]
-    layer_toset.set_weights(filters)
-# For sake of efficiency, continue using only the 100 samples in Y_pos and 100 samples in Y_neg 
-# for the processing below (i.e. forward pass only these 200 samples from the training set
-# through the Keras model and obtain the output of layer "final1" for only these samples).
-output_1 = model_fp(model,fp_train,'final1')
-# Transpose output_1 for "learn_connections_unsup" and "MiniBatchKMeansAutoConv"
-output_1 = output_1.transpose((0,3,1,2))
-# For sake of efficiency, use only the first 10 and last 10 samples of output_1 for 
-# "learn_connections_unsup"
-output_1_learnf = numpy.concatenate((output_1[0:10],output_1[-10:]),axis=0)
-# Learn filter connections
-connections_2f = learn_connections_unsup(output_1_learnf,num_groups_f,group_size_f,flag=0)
-# Repeat output_1 "num_groups_f" times, each time using only the filters in one of the 
-# "num_groups_f" groups of connections_2f. "output_1_connected" holds all these versions of 
-# output_1 with the different sets of filters selected. 
-output_1_connected = numpy.zeros((output_1.shape[0]*num_groups_f,group_size_f,output_1.shape[2],output_1.shape[3]))
-index = 0
-for ii in range(num_groups_f):
-    output_1_connected[index:index+output_1.shape[0],:,:,:] = output_1[:,connections_2f[ii,:],:,:]
-    index = index + output_1.shape[0]
-k_train = output_1_connected
-# Learn the next set of filters using all samples from output_1_connected. Take all of
-# the patches per sample and laern group_size_f filters (centroids).
-# Since group_size_f filters are learned, all the filters convolved with each of the 
-# "num_groups_f" groups in the Keras model, and the results concatenated, 
-# there will be a total of num_groups_f*group_size_f filters in the next layer.
-centroids_2 = MiniBatchKMeansAutoConv(k_train,(kernel_size,kernel_size),None,group_size_f,[0])
-# Re-instantiate the Keras model with the newly-set connections_2f and connections_2m
-model = create_model(num_groups_f,group_size_f,kernel_size,input_shape,connections_1f,connections_2f)
-# Since the model is re-instantiated, re-set the filters for "conv_0" 
-layer_toset = model.get_layer('conv0')
-filters = centroids_0.transpose((2,3,1,0))
-filters = filters[numpy.newaxis,...]
-layer_toset.set_weights(filters)
-# Since the model is re-instantiated, re-set the filters for convolutional layers in Layer 1
-for ii in range(num_groups_f):
-    layer_toset = model.get_layer('conv1_'+str(ii))
-    filters = centroids_1.transpose((2,3,1,0))
-    filters = filters[numpy.newaxis,...]
-    layer_toset.set_weights(filters)
-# Set the filters for convolutional layers in Layer 2
-for ii in range(num_groups_f):
-    layer_toset = model.get_layer('conv2_'+str(ii))
-    filters = centroids_2.transpose((2,3,1,0))
     filters = filters[numpy.newaxis,...]
     layer_toset.set_weights(filters)
 
