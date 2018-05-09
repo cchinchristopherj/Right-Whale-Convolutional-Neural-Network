@@ -107,7 +107,7 @@ k_train = X_train.transpose((0,3,1,2))
 # contain 450 samples). Equal number of samples from each of these arrays are therefore given 
 # to K-Means, so that K-Means is able to learn its dictionary of filters based off features 
 # from both the positive and negative class. 
-Y_pos,Y_neg,indices = separate_trainlabels(Y_train)
+Y_pos,Y_neg,indices = separate_trainlabels(Y_train,num_perclass=450)
 # Shuffle k_train, model_train, and model_labels according to the indices specified by 
 # "separate_trainlabels"
 k_train = k_train[indices]
@@ -166,7 +166,7 @@ early_stopping = EarlyStopping(monitor='roc_auc_val',patience=5,mode='max')
 # calculated after fitting)
 validation_train = X_testV
 validation_labels = Y_test
-callbacks_list = [roc_callback(training_data=(validation_train,validation_labels)),checkpoint,early_stopping]
+callbacks_list = [roc_callback(validation_data=(validation_train,validation_labels)),checkpoint,early_stopping]
 # Fit the model using the callbacks list for 500 epochs and a batch size of 100
 model.fit(model_train,model_labels,callbacks=callbacks_list,epochs=500,batch_size=100)
 # To calculate the test "roc_auc_val" score: 

@@ -1,7 +1,7 @@
-Whale Convolutional Neural Network 
+Whale Convolutional Neural Network (Supervised)
 =========================
 
-Convolutional Neural Network to Recognize Right Whale Upcalls
+Convolutional Neural Network to Recognize Right Whale Upcalls (via Standard Backpropagation)
 
 Uses the dataset and labels constructed for [Kaggle 2013 ICML Whale Challenge](https://www.kaggle.com/c/the-icml-2013-whale-challenge-right-whale-redux)
 
@@ -154,54 +154,23 @@ The final tuned model architecture is as depicted below:
 Results of Training
 =========================
 
-The CNN model was trained for 45 epochs and a batch size of 100 on a training set of 84000 audio files (42000 vertically-enhanced spectrograms and 42000 horizontally-enhanced spectrograms). Training took approximately 8 hours on a MacBook Pro (2017). The test set consisted of 10000 audio files (5000 vertically-enhanced spectrograms and 5000 horizontally-enhanced spectrograms). The loss, accuracy, and ROC-AUC score evaluated by Keras for every epoch during training is depicted below. The final ROC-AUC score for the training set after 45 epochs was found to be 98.63%, while the ROC-AUC score for the test set was found to be 98.25%.
+The CNN model was trained for 14 epochs and a batch size of 100 on a training set of 84000 audio files (42000 vertically-enhanced spectrograms and 42000 horizontally-enhanced spectrograms). Training took approximately 7 minutes on a Tesla K80 GPU (via FloydHub Cloud Service). The test set consisted of 10000 audio files (5000 vertically-enhanced spectrograms and 5000 horizontally-enhanced spectrograms). The loss and accuracy of the training set, and ROC-AUC score of the test set were evaluated by Keras for every epoch during training and depicted below. The final ROC-AUC score for the training set after 14 epochs was found to be 98.50%, while the ROC-AUC score for the test set was found to be 98.29%.
 
 | Epoch                 | Loss        | Accuracy    | ROC-AUC     | 
 |-----------------------|-------------|-------------|-------------|
-| 1/45                  | 0.1761      | 0.9424      | 0.965       | 
-| 2/45                  | 0.1199      | 0.9582      | 0.9717      | 
-| 3/45                  | 0.1085      | 0.9624      | 0.9768      | 
-| 4/45                  | 0.1026      | 0.9635      | 0.9783      | 
-| 5/45                  | 0.1003      | 0.9636      | 0.9793      | 
-| 6/45                  | 0.0974      | 0.9644      | 0.9811      | 
-| 7/45                  | 0.0963      | 0.9651      | 0.9805      | 
-| 8/45                  | 0.0955      | 0.9661      | 0.9821      | 
-| 9/45                  | 0.0943      | 0.9658      | 0.9822      | 
-| 10/45                 | 0.0928      | 0.9665      | 0.9826      | 
-| 11/45                 | 0.0902      | 0.9675      | 0.9831      | 
-| 12/45                 | 0.0912      | 0.9670      | 0.9828      | 
-| 13/45                 | 0.0904      | 0.9671      | 0.9835      | 
-| 14/45                 | 0.0895      | 0.9674      | 0.9825      | 
-| 15/45                 | 0.0901      | 0.9664      | 0.9841      | 
-| 16/45                 | 0.0898      | 0.9673      | 0.9846      | 
-| 17/45                 | 0.0878      | 0.9680      | 0.9844      | 
-| 18/45                 | 0.0893      | 0.9673      | 0.9847      | 
-| 19/45                 | 0.0872      | 0.9681      | 0.9848      | 
-| 20/45                 | 0.0865      | 0.9865      | 0.9848      | 
-| 21/45                 | 0.0854      | 0.9689      | 0.9837      | 
-| 22/45                 | 0.0859      | 0.9685      | 0.9845      | 
-| 23/45                 | 0.0853      | 0.9683      | 0.9848      | 
-| 24/45                 | 0.0858      | 0.9682      | 0.9851      | 
-| 25/45                 | 0.0854      | 0.9690      | 0.985       | 
-| 26/45                 | 0.0844      | 0.9690      | 0.985       | 
-| 27/45                 | 0.0855      | 0.9692      | 0.9852      | 
-| 28/45                 | 0.0849      | 0.9689      | 0.9856      | 
-| 29/45                 | 0.0847      | 0.9685      | 0.9855      | 
-| 30/45                 | 0.0839      | 0.9688      | 0.9857      | 
-| 31/45                 | 0.0847      | 0.9687      | 0.9858      | 
-| 32/45                 | 0.0837      | 0.9692      | 0.9856      | 
-| 33/45                 | 0.0840      | 0.9689      | 0.9855      | 
-| 34/45                 | 0.0850      | 0.9685      | 0.9858      | 
-| 35/45                 | 0.0836      | 0.9692      | 0.9861      | 
-| 36/45                 | 0.0837      | 0.9693      | 0.9857      | 
-| 37/45                 | 0.0829      | 0.9687      | 0.9861      | 
-| 38/45                 | 0.0831      | 0.9696      | 0.9862      | 
-| 39/45                 | 0.0832      | 0.9690      | 0.9862      | 
-| 40/45                 | 0.0828      | 0.9691      | 0.9865      | 
-| 41/45                 | 0.0816      | 0.9703      | 0.9864      | 
-| 42/45                 | 0.0829      | 0.9692      | 0.9862      | 
-| 43/45                 | 0.0823      | 0.9695      | 0.986       | 
-| 44/45                 | 0.0831      | 0.9691      | 0.9863      | 
-| 45/45                 | 0.0815      | 0.9697      | 0.9863      | 
+| 1/14                  | 0.1606      | 0.9462      | 0.9548      | 
+| 2/14                  | 0.1092      | 0.9613      | 0.9534      | 
+| 3/14                  | 0.0992      | 0.9646      | 0.9712      | 
+| 4/14                  | 0.0953      | 0.9660      | 0.9782      | 
+| 5/14                  | 0.0922      | 0.9665      | 0.9749      | 
+| 6/14                  | 0.0899      | 0.9673      | 0.9571      | 
+| 7/14                  | 0.0875      | 0.9678      | 0.9751      | 
+| 8/14                  | 0.0855      | 0.9684      | 0.9825      | 
+| 9/14                  | 0.0852      | 0.9687      | 0.9798      | 
+| 10/14                 | 0.0847      | 0.9690      | 0.9662      | 
+| 11/14                 | 0.0832      | 0.9698      | 0.9775      | 
+| 12/14                 | 0.0836      | 0.9689      | 0.9818      | 
+| 13/14                 | 0.0810      | 0.9700      | 0.9796      | 
+| 14/14                 | 0.0812      | 0.9697      | 0.9709      | 
 
-**Test ROC_AUC Score = 0.9825**
+**Test ROC_AUC Score = 0.9829**

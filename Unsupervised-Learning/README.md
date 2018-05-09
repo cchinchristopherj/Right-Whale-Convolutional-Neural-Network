@@ -3,43 +3,86 @@ Whale Convolutional Neural Network (Unsupervised)
 
 Convolutional Neural Network to Recognize Right Whale Upcalls via Filters Learned Through K-Means
 
-Uses the dataset and labels constructed for [Kaggle 2013 ICML Whale Challenge](https://www.kaggle.com/c/the-icml-2013-whale-challenge-right-whale-redux)
+Tackles the same [challenge](https://www.kaggle.com/c/the-icml-2013-whale-challenge-right-whale-redux) and uses the same [dataset](https://www.kaggle.com/c/the-icml-2013-whale-challenge-right-whale-redux/data) as the supervised CNN model. The same data() method in whale_cnn.py is used to perform pre-processing on the raw data, i.e. horizontal and vertical contrast enhancement and resizing to (64x64x1) images, thereby producing the same X_train, Y_train, X_testV, X_testH, and Y_test. 
 
-The training dataset for [Kaggle 2013 ICML Whale Challenge](https://www.kaggle.com/c/the-icml-2013-whale-challenge-right-whale-redux) can be accessed [here](https://www.kaggle.com/c/the-icml-2013-whale-challenge-right-whale-redux/data) by selecting "train_2.zip" and clicking "Download"
+Two different model architectures were created, in which filters for convolutional layers are learned unsupervised. Both models were built using the same guiding principle that K-Means learns centroids more effectively if the dimensionality of the samples' features is kept relatively small. In the 0th convolutional layer (raw input), this is not an issue because the samples are 7x7 patches (49-dimensional features) from 64x64x1 raw spectrogram images. Therefore, both models feed full 7x7x1 patches to K-Means to learn a dictionary of 256 filters. However, note that even if maxpooling is applied to the output of the 0th convolutional layer, yielding an output shape of (batch_size,29,29,256), and 7x7 patches are once again extracted, the samples fed to K-Means are 7x7x256 = 12544-dimensional, which will prohibit K-Means from learning effectively. Two approaches are taken in the two architectures:
+- Model 1: Energy-Correlated Receptive Fields
+- Model 2: 1x1 Convolution Dimensionality Reduction
 
-The final tuned model architecture is as depicted below: 
+Model 1 (Energy-Correlated Receptive Fields)
+=========================
+
+- After the output of the 0th convolutional layer is maxpooled, yielding an output of shape (batch_size,29,29,256), calculate the squared-energy correlation between all 256 feature maps
+- Create "num_groups" groups of "group_size" feature maps that are most strongly correlated with each other. In this case, hyperparameter tuning found "num_groups" = 32 and "group_size" = 8 to be most effective. 
+- By breaking the entire set of feature maps into smaller groups that have high squared-energy correlation, K-Means will be able to learn more discriminative filters. (Since 7x7 patches are extracted from the smaller groups of "group_size" = 8, the samples fed to K-Means are 7x7x8 = 392-dimensional, two orders of magnitude smaller than the original approach). 
+- The final ROC-AUC score for the test set after 45 epochs and a batch size of 100 was: **98.25%**
+
+Model 2 (1x1 Convolution Dimensionality Reduction)
+=========================
+
+- After the output of the 0th convolutional layer is maxpooled, yielding an output of shape (batch_size,29,29,256), use 1x1 convolutions to reduce the depth (i.e. number of feature maps). The output of the 1x1 convolutional layer is of shape (batch_size,29,29,group_size), where group_size is a hyperparameter to be tuned. 
+- "group_size" = 8 was found to be most effective, and also allowed for direct comparison with the Model 1 method. (Since there are "group_size" filters in the 1x1 convolutional layer, this will yield the exact same dimensionality of samples fed to K-Means as in Model 1). 
+- The possible advantage of this approach is the drastic reduction in the complexity of Model 1's architecture. In addition, 1x1 convolutions function as micro networks, or multi-layer perceptrons that are slid across the image like convolutional layers, providing an additional nonlinearity to learn better representations. 
+
+The final tuned model architecture for Model 2 is as depicted below: 
 
 ![cnn_architecture](https://github.com/cchinchristopherj/Right-Whale-Convolutional-Neural-Network/blob/master/Unsupervised-Learning/Images/cnn_architecture_unsup.png)
+
+Correct Usage
+=========================
+
+My trained CNN model architecture and weights for Model 2 are saved in the "model_v2.h5" file. This file can be loaded using the command:
+
+    loaded_model = load_model('model_v2.h5')  
+    
+Note: "load_model" is a function from keras.models. 
+With this model loaded, you can use follow the procedure as described in training_v1.py or training_v2.py to predict the label of a new audio file that may or may not contain a right whale upcall. 
+
+If you would like to replicate the process I used to train the CNN models, perform the following:
+First, download the training set "train_2.zip" from [here](https://www.kaggle.com/c/the-icml-2013-whale-challenge-right-whale-redux/data) to the desired directory on your computer.
+Then run either:
+
+    python training_v1.py 
+    
+or:
+
+    python training_v2.py 
+    
+This constructs the CNN model architectures, trains the filters unsupervised via K-Means, and trains the weights on the dataset. This trained model can be saved to your computer using the command:
+
+    model.save('whale_cnn.h5')  
+    
+Filter Visualization (0th Layer)
+=========================
+
+The filters of the 0th convolutional layer in CNNs (applied to the raw input images) are often "human-interpretable" and have patterns that are easy to correlate with patterns of the input images. Both Model 1 and Model 2 learn the same number of filters (256) in the same manner via K-Means for the 0th layer. Examine a visualization of these filters in the grid below:
+![filters_unsup](https://github.com/cchinchristopherj/Right-Whale-Convolutional-Neural-Network/blob/cchinchristopherj-patch-1/Unsupervised-Learning/Images/filters_unsup.png)
+
+*Note: Many patches appear to have patterns from the higher-intensity, brightly yellow-colored areas of the spectrogram containing a right whale upcall. Note, however, that other patches also appear to have be monochromatic and duller-colored - more representative of spectrograms with ambient noise. This is a product of the process used to train the filters via K-Means: Equal number of samples from the positive class (right whalle upcall) and negative class (ambient noise) were given to the algorithm to learn centroids, resulting in patches representative of both types of images. Including samples from both classes, as opposed to just including samples from the positive class, was found to boost classifier performance. 
 
 Results of Training
 =========================
 
-The CNN model was trained for 22 epochs and a batch size of 100 on a training set of 84000 audio files (42000 vertically-enhanced spectrograms and 42000 horizontally-enhanced spectrograms). Training took approximately 1 hour 10 minutes on a Tesla K80 GPU (via FloydHub Cloud Service). The test set consisted of 10000 audio files (5000 vertically-enhanced spectrograms and 5000 horizontally-enhanced spectrograms). The loss and accuracy of the training set, and ROC-AUC score of the test set, are evaluated by Keras for every epoch during training and depicted below. The final ROC-AUC score for the training set after 22 epochs was found to be 98.63%, while the ROC-AUC score for the test set was found to be 98.25%.
+The CNN model was trained for 16 epochs and a batch size of 100 on a training set of 84000 audio files (42000 vertically-enhanced spectrograms and 42000 horizontally-enhanced spectrograms). Training took approximately 50 minutes on a Tesla K80 GPU (via FloydHub Cloud Service). The test set consisted of 10000 audio files (5000 vertically-enhanced spectrograms and 5000 horizontally-enhanced spectrograms). The loss and accuracy of the training set, and ROC-AUC score of the test set, are evaluated by Keras for every epoch during training and depicted below. The final ROC-AUC score for the training set after 16 epochs was found to be 96.07%, while the ROC-AUC score for the test set was found to be 95.97%.
 
 | Epoch                 | Loss        | Accuracy    | ROC-AUC     | 
 |-----------------------|-------------|-------------|-------------|
-| 1/22                  | 0.1761      | 0.9424      | 0.965       | 
-| 2/22                  | 0.1199      | 0.9582      | 0.9717      | 
-| 3/22                  | 0.1085      | 0.9624      | 0.9768      | 
-| 4/22                  | 0.1026      | 0.9635      | 0.9783      | 
-| 5/22                  | 0.1003      | 0.9636      | 0.9793      | 
-| 6/22                  | 0.0974      | 0.9644      | 0.9811      | 
-| 7/22                  | 0.0963      | 0.9651      | 0.9805      | 
-| 8/22                  | 0.0955      | 0.9661      | 0.9821      | 
-| 9/22                  | 0.0943      | 0.9658      | 0.9822      | 
-| 10/22                 | 0.0928      | 0.9665      | 0.9826      | 
-| 11/22                 | 0.0902      | 0.9675      | 0.9831      | 
-| 12/22                 | 0.0912      | 0.9670      | 0.9828      | 
-| 13/22                 | 0.0904      | 0.9671      | 0.9835      | 
-| 14/22                 | 0.0895      | 0.9674      | 0.9825      | 
-| 15/22                 | 0.0901      | 0.9664      | 0.9841      | 
-| 16/22                 | 0.0898      | 0.9673      | 0.9846      | 
-| 17/22                 | 0.0878      | 0.9680      | 0.9844      | 
-| 18/22                 | 0.0893      | 0.9673      | 0.9847      | 
-| 19/22                 | 0.0872      | 0.9681      | 0.9848      | 
-| 20/22                 | 0.0865      | 0.9865      | 0.9848      | 
-| 21/22                 | 0.0854      | 0.9689      | 0.9837      | 
-| 22/22                 | 0.0859      | 0.9685      | 0.9845      | 
+| 1/16                  | 0.2313      | 0.9210      | 0.9354      | 
+| 2/16                  | 0.1953      | 0.9303      | 0.9370      | 
+| 3/16                  | 0.1870      | 0.9314      | 0.9420      | 
+| 4/16                  | 0.1802      | 0.9330      | 0.9439      | 
+| 5/16                  | 0.1768      | 0.9339      | 0.9368      | 
+| 6/16                  | 0.1728      | 0.9339      | 0.9405      | 
+| 7/16                  | 0.1720      | 0.9339      | 0.9419      | 
+| 8/16                  | 0.1710      | 0.9344      | 0.9472      | 
+| 9/16                  | 0.1686      | 0.9349      | 0.9383      | 
+| 10/16                 | 0.1661      | 0.9357      | 0.9491      | 
+| 11/16                 | 0.1650      | 0.9364      | 0.9375      | 
+| 12/16                 | 0.1636      | 0.9378      | 0.9476      | 
+| 13/16                 | 0.1623      | 0.9423      | 0.9395      | 
+| 14/16                 | 0.1597      | 0.9414      | 0.9437      | 
+| 15/16                 | 0.1594      | 0.9421      | 0.9433      | 
+| 16/16                 | 0.1592      | 0.9423      | 0.9411      | 
 
-**Test ROC_AUC Score = 0.9502**
+**Test ROC_AUC Score = 0.9507**
 
