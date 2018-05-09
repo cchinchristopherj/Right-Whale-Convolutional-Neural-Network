@@ -391,7 +391,7 @@ def resize_batch(X, new_size):
         out.append(resize(x.transpose((1,2,0)), new_size, order=1, preserve_range=True,mode='constant').transpose((2,0,1)))
     return numpy.stack(out)
 
-def separate_trainlabels(Y_train):
+def separate_trainlabels(Y_train,num_perclass):
     ''' separate_trainlabels Method 
             Randomly shuffle the indices of the training set and extract arrays "Y_pos"
             and "Y_neg" holding indices of solely positive and solely negative labels, 
@@ -400,6 +400,9 @@ def separate_trainlabels(Y_train):
             Args:
                 Y_train: Labels for the training set X_train of shape: (Number of samples),
                          with labels being either 0 or 1
+		num_perclass: int number of samples to include from the positive class 
+			      (and negative class) in "Y_pos" and "Y_neg," respectively
+			 
             Returns: 
                 Y_pos: 1-D numpy array of indices to positive labels 
                 Y_neg: 1-D numpy array of indices to negative labels
@@ -419,14 +422,14 @@ def separate_trainlabels(Y_train):
         # Add the index of a positive label to Y_pos if the length of Y_pos is less than 50.
         # This ensures Y_pos eventually has a total of 50 positive labels. 
         if labels[ii] == 1:
-            if len(Y_pos) < 225:
+            if len(Y_pos) < num_perclass:
                 Y_pos.append(ii)
         # Add the index of a negative label to Y_neg if the length of Y_neg is less than 50.
         # This ensures Y_neg eventually has a total of. 50 negative labels.
         else:
-            if len(Y_neg) < 225:
+            if len(Y_neg) < num_perclass:
                 Y_neg.append(ii)
         # Break the for loop as soon as Y_pos and Y_neg both have 50 elements 
-        if len(Y_pos) == 225 and len(Y_neg) == 225:
+        if len(Y_pos) == num_perclass and len(Y_neg) == num_perclass:
             break
     return Y_pos,Y_neg,indices
