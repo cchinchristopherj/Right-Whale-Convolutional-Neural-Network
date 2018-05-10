@@ -1,5 +1,6 @@
 ''' whale_cnn.py
-        Contains classes and functions used by training.py and tuning.py
+        Contains classes and functions carried over from the supervised 
+        CNN model - used here by training_v1.py and training_v2.py
 '''
 
 import numpy as np
