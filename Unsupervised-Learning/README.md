@@ -65,7 +65,7 @@ The filters of the 0th convolutional layer in CNNs (applied to the raw input ima
 
 ![filters_unsup](https://github.com/cchinchristopherj/Right-Whale-Convolutional-Neural-Network/blob/master/Unsupervised-Learning/Images/filters_unsup.png)
 
-*Note: Many patches appear to have patterns from the higher-intensity, brightly yellow-colored areas of the spectrogram containing a right whale upcall. Note, however, that other patches also appear to have be monochromatic and duller-colored - more representative of spectrograms with ambient noise. This is a product of the process used to train the filters via K-Means: Equal number of samples from the positive class (right whalle upcall) and negative class (ambient noise) were given to the algorithm to learn centroids, resulting in patches representative of both types of images. Including samples from both classes, as opposed to just including samples from the positive class, was found to boost classifier performance. 
+*Note: Many patches appear to have patterns from the higher-intensity, brightly yellow-colored areas of the spectrogram containing a right whale upcall. Note, however, that other patches also appear to have be monochromatic and duller-colored - more representative of spectrograms with ambient noise. This is a product of the process used to train the filters via K-Means: Equal number of samples from the positive class (right whalle upcall) and negative class (ambient noise) were given to the algorithm to learn centroids, resulting in patches representative of both types of images. Including samples from both classes, as opposed to just including samples from the positive class, was found to boost classifier performance.* 
 
 Results of Training for Model 1
 =========================
