@@ -116,7 +116,7 @@ def create_model(num_groups,group_size,kernel_size,input_shape,connections_1f):
         # under consideration. (Note that samples from all the groups were fed into K-Means to 
         # learn these filters ("group_size" filters were learned). These
         # "group_size" filters were applied to the current group under consideration.
-        layers_1[ii]['X_conv2d_'+str(ii)] = Conv2D(filters=group_size,kernel_size=kernel_size,use_bias=False,activation='relu',name='conv1_'+str(ii),trainable=False)(layers_1[ii]['X_batchnorm_'+str(ii)])
+        layers_1[ii]['X_conv2d_'+str(ii)] = Conv2D(filters=group_size*2,kernel_size=kernel_size,use_bias=False,activation='relu',name='conv1_'+str(ii),trainable=False)(layers_1[ii]['X_batchnorm_'+str(ii)])
         # Maxpooling was applied for translation invariance and to halve the width and height
         # dimensions
         layers_1_maxpool[ii]['X_maxpool2d_'+str(ii)] = MaxPooling2D(pool_size=(2,2),name='maxpool1_'+str(ii))(layers_1[ii]['X_conv2d_'+str(ii)])
