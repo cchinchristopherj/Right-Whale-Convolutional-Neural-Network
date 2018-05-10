@@ -243,7 +243,7 @@ k_train = output_0_connected[k_train_indices]
 # Since group_size_f filters are learned, all the filters convolved with each of
 # the "num_groups_f" groups in the Keras model, and the results concatenated, there will be
 # a total of num_groups_f*group_size_f filters in the next layer.
-centroids_1 = MiniBatchKMeansAutoConv(k_train,(kernel_size,kernel_size),0.5,group_size_f,[0])
+centroids_1 = MiniBatchKMeansAutoConv(k_train,(kernel_size,kernel_size),0.5,group_size_f*2,[0])
 # Re-instantiate the model with the newly-set connections_1f and connections_1m 
 model = create_model(num_groups_f,group_size_f,kernel_size,input_shape,connections_1f)
 # Since the model is re-instantiated, re-set the filters for "conv_0" 
