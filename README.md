@@ -156,7 +156,7 @@ Filter Visualization (0th Layer)
 
 The filters of the 0th convolutional layer in CNNs (applied to the raw input images) are often "human-interpretable" and have patterns that are easy to correlate with patterns of the input images.
 
-![filters_sup](https://github.com/cchinchristopherj/Right-Whale-Convolutional-Neural-Network/blob/cchinchristopherj-patch-1/Images/filters_sup.png)
+![filters_sup](https://github.com/cchinchristopherj/Right-Whale-Convolutional-Neural-Network/blob/master/Images/filters_sup.png)
 
 *Note: Many patches appear to have patterns from the higher-intensity, brightly yellow-colored areas of the spectrogram containing a right whale upcall.*
 
