@@ -74,7 +74,7 @@ Model 1 was trained for 17 epochs and a batch size of 100 on a training set of 8
 
 - ROC-AUC Score vs Epoch (Graph)
 
-![AUC-Epoch_ModelUnsup1](https://github.com/cchinchristopherj/Right-Whale-Convolutional-Neural-Network/blob/cchinchristopherj-patch-1/Unsupervised-Learning/Images/Model-1/AUC-Epoch_ModelUnsup1.png)
+![AUC-Epoch_ModelUnsup1](https://github.com/cchinchristopherj/Right-Whale-Convolutional-Neural-Network/blob/master/Unsupervised-Learning/Images/Model-1/AUC-Epoch_ModelUnsup1.png)
 
 - ROC-AUC Score vs Epoch (Table)
 
@@ -104,19 +104,19 @@ ROC Curves for Model 1
 ------
 
 - Training Set ROC Curve vs Test Set ROC Curve
-![ROC_ModelUnsup1_BP](https://github.com/cchinchristopherj/Right-Whale-Convolutional-Neural-Network/blob/cchinchristopherj-patch-1/Unsupervised-Learning/Images/Model-1/ROC_ModelUnsup1_BP.png)
+![ROC_ModelUnsup1_BP](https://github.com/cchinchristopherj/Right-Whale-Convolutional-Neural-Network/blob/master/Unsupervised-Learning/Images/Model-1/ROC_ModelUnsup1_BP.png)
 
 *Note: Predictions on the test set are made using the union of the predictions on the vertically-enhanced spectrograms and horizontally-enhanced spectrograms (BP=Both Predictions).*
 
 - Test Set ROC Curves
 
-![ROC_ModelUnsup1_TestOnly](https://github.com/cchinchristopherj/Right-Whale-Convolutional-Neural-Network/blob/cchinchristopherj-patch-1/Unsupervised-Learning/Images/Model-1/ROC_ModelUnsup1_TestOnly.png)
+![ROC_ModelUnsup1_TestOnly](https://github.com/cchinchristopherj/Right-Whale-Convolutional-Neural-Network/blob/master/Unsupervised-Learning/Images/Model-1/ROC_ModelUnsup1_TestOnly.png)
 
 *Note: The three curves represent predictions only on the vertically-enhanced spectrograms in the test set (VP=Vertically-Enhanced Predictions, predictions only on the horizontally-enhanced spectrograms in the test set (HP=Horizontally-Enhanced Predictions), and the union of the predictions on both types of images (BP=Both Predictions).*
 
 - Training Set ROC Curve vs Test Set ROC Curves
 
-![ROC_ModelUnsup1_All](https://github.com/cchinchristopherj/Right-Whale-Convolutional-Neural-Network/blob/cchinchristopherj-patch-1/Unsupervised-Learning/Images/Model-1/ROC_ModelUnsup1_All.png)
+![ROC_ModelUnsup1_All](https://github.com/cchinchristopherj/Right-Whale-Convolutional-Neural-Network/blob/master/Unsupervised-Learning/Images/Model-1/ROC_ModelUnsup1_All.png)
 
 Results of Training for Model 2
 =========================
@@ -125,7 +125,7 @@ Model 2 was trained for 16 epochs and a batch size of 100 on a training set of 8
 
 - ROC-AUC Score vs Epoch (Graph)
 
-![AUC-Epoch_ModelUnsup1](https://github.com/cchinchristopherj/Right-Whale-Convolutional-Neural-Network/blob/cchinchristopherj-patch-1/Unsupervised-Learning/Images/Model-2/AUC-Epoch_ModelUnsup2.png)
+![AUC-Epoch_ModelUnsup2](https://github.com/cchinchristopherj/Right-Whale-Convolutional-Neural-Network/blob/master/Unsupervised-Learning/Images/Model-2/AUC-Epoch_ModelUnsup2.png)
 
 - ROC-AUC Score vs Epoch (Table)
 
@@ -154,24 +154,24 @@ ROC Curves for Model 2
 ------
 
 - Training Set ROC Curve vs Test Set ROC Curve
-![ROC_ModelUnsup2_BP](https://github.com/cchinchristopherj/Right-Whale-Convolutional-Neural-Network/blob/cchinchristopherj-patch-1/Unsupervised-Learning/Images/Model-2/ROC_ModelUnsup2_BP.png)
+![ROC_ModelUnsup2_BP](https://github.com/cchinchristopherj/Right-Whale-Convolutional-Neural-Network/blob/master/Unsupervised-Learning/Images/Model-2/ROC_ModelUnsup2_BP.png)
 
 *Note: Predictions on the test set are made using the union of the predictions on the vertically-enhanced spectrograms and horizontally-enhanced spectrograms (BP=Both Predictions).*
 
 - Test Set ROC Curves
 
-![ROC_ModelUnsup2_TestOnly](https://github.com/cchinchristopherj/Right-Whale-Convolutional-Neural-Network/blob/cchinchristopherj-patch-1/Unsupervised-Learning/Images/Model-2/ROC_ModelUnsup2_TestOnly.png)
+![ROC_ModelUnsup2_TestOnly](https://github.com/cchinchristopherj/Right-Whale-Convolutional-Neural-Network/blob/master/Unsupervised-Learning/Images/Model-2/ROC_ModelUnsup2_TestOnly.png)
 
 *Note: The three curves represent predictions only on the vertically-enhanced spectrograms in the test set (VP=Vertically-Enhanced Predictions, predictions only on the horizontally-enhanced spectrograms in the test set (HP=Horizontally-Enhanced Predictions), and the union of the predictions on both types of images (BP=Both Predictions).*
 
 - Training Set ROC Curve vs Test Set ROC Curves
 
-![ROC_ModelUnsup2_All](https://github.com/cchinchristopherj/Right-Whale-Convolutional-Neural-Network/blob/cchinchristopherj-patch-1/Unsupervised-Learning/Images/Model-2/ROC_ModelUnsup2_All.png)
+![ROC_ModelUnsup2_All](https://github.com/cchinchristopherj/Right-Whale-Convolutional-Neural-Network/blob/master/Unsupervised-Learning/Images/Model-2/ROC_ModelUnsup2_All.png)
 
-Final Comparison: ROC-AUC Scores vs Epoch
+All Models: ROC-AUC Scores vs Epoch
 =========================
 
-![AUC-Epoch_All](https://github.com/cchinchristopherj/Right-Whale-Convolutional-Neural-Network/blob/cchinchristopherj-patch-1/Unsupervised-Learning/Images/AUC-Epoch_All.png)
+![AUC-Epoch_All](https://github.com/cchinchristopherj/Right-Whale-Convolutional-Neural-Network/blob/master/Unsupervised-Learning/Images/AUC-Epoch_All.png)
 
 *Note: The three curves represent the ROC-AUC scores vs epoch for the supervised CNN, the unsupervised CNN using energy-correlated receptive field grouping, and the unsupervised CNN using 1x1 convolution dimensionality reduction, respectively.*
 
