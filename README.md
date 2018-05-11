@@ -167,7 +167,7 @@ The CNN model was trained for 14 epochs and a batch size of 100 on a training se
 
 - ROC-AUC Score vs Epoch (Graph)
 
-![AUC-Epoch_ModelSup](https://github.com/cchinchristopherj/Right-Whale-Convolutional-Neural-Network/blob/cchinchristopherj-patch-1/Images/Graphs/AUC-Epoch_ModelSup.png)
+![AUC-Epoch_ModelSup](https://github.com/cchinchristopherj/Right-Whale-Convolutional-Neural-Network/blob/master/Images/Graphs/AUC-Epoch_ModelSup.png)
 
 - ROC-AUC Score vs Epoch (Table)
 
@@ -194,16 +194,16 @@ ROC Curves
 ------
 
 - Training Set ROC Curve vs Test Set ROC Curve
-![ROC_ModelSup_BP](https://github.com/cchinchristopherj/Right-Whale-Convolutional-Neural-Network/blob/cchinchristopherj-patch-1/Images/Graphs/ROC_ModelSup_BP.png)
+![ROC_ModelSup_BP](https://github.com/cchinchristopherj/Right-Whale-Convolutional-Neural-Network/blob/master/Images/Graphs/ROC_ModelSup_BP.png)
 
 *Note: Predictions on the test set are made using the union of the predictions on the vertically-enhanced spectrograms and horizontally-enhanced spectrograms (BP=Both Predictions).*
 
 - Test Set ROC Curves
 
-![ROC_ModelSup_TestOnly](https://github.com/cchinchristopherj/Right-Whale-Convolutional-Neural-Network/blob/cchinchristopherj-patch-1/Images/Graphs/ROC_ModelSup_TestOnly.png)
+![ROC_ModelSup_TestOnly](https://github.com/cchinchristopherj/Right-Whale-Convolutional-Neural-Network/blob/master/Images/Graphs/ROC_ModelSup_TestOnly.png)
 
 *Note: The three curves represent predictions only on the vertically-enhanced spectrograms in the test set (VP=Vertically-Enhanced Predictions, predictions only on the horizontally-enhanced spectrograms in the test set (HP=Horizontally-Enhanced Predictions), and the union of the predictions on both types of images (BP=Both Predictions).*
 
 - Training Set ROC Curve vs Test Set ROC Curves
 
-![ROC_ModelSup_All](https://github.com/cchinchristopherj/Right-Whale-Convolutional-Neural-Network/blob/cchinchristopherj-patch-1/Images/Graphs/ROC_ModelSup_All.png)
+![ROC_ModelSup_All](https://github.com/cchinchristopherj/Right-Whale-Convolutional-Neural-Network/blob/master/Images/Graphs/ROC_ModelSup_All.png)
