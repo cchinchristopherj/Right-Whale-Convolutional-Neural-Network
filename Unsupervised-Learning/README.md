@@ -181,7 +181,9 @@ Coates A., Ng A.Y. (2012) [Learning Feature Representations with K-Means.](https
 
 Coates A., Ng A.Y. [Selecting receptive fields in deep networks.](http://robotics.stanford.edu/~ang/papers/nips11-SelectingReceptiveFields.pdf) In: Shawe-Taylor, J., Zemel, R., Bartlett, P., Pereira, F., Weinberger, K. (eds.) Advances in Neural Information Processing Systems 24, pp. 2528–2536. Curran Associates, Inc. (2011)
 
-Salamon J, Bello JP, Farnsworth A, Robbins M, Keen S, Klinck H, et al. (2016) [Towards the Automatic Classification of Avian Flight Calls for Bioacoustic Monitoring.](http://journals.plos.org/plosone/article/file?id=10.1371/journal.pone.0166866&type=printable) PLoS ONE 11(11): e0166866. doi:10.1371/journal.pone.0166866
+Salamon J., Bello J.P., Farnsworth A., Robbins M., Keen S., Klinck H., et al. (2016) [Towards the Automatic Classification of Avian Flight Calls for Bioacoustic Monitoring.](http://journals.plos.org/plosone/article/file?id=10.1371/journal.pone.0166866&type=printable) PLoS ONE 11(11): e0166866. doi:10.1371/journal.pone.0166866
+
+Culurciello E., Jin J., Dundar, A., Bates J. [An Analysis of the Connections Between Layers of Deep Neural Networks.](https://arxiv.org/pdf/1306.0152.pdf) *arXiv preprint arXiv:1306.0152*, 2013
 
 Lin M., Chen Q., Yan S. [Network In Network.](https://arxiv.org/pdf/1312.4400.pdf) *arXiv preprint arXiv:1312.4400*, 2014
 
