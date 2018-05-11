@@ -15,7 +15,6 @@ Model 1 (Energy-Correlated Receptive Fields Grouping)
 - After the output of the 0th convolutional layer is maxpooled, yielding an output of shape (batch_size,29,29,256), calculate the squared-energy correlation between all 256 feature maps
 - Create "num_groups" groups of "group_size" feature maps that are most strongly correlated with each other. In this case, hyperparameter tuning found "num_groups" = 32 and "group_size" = 8 to be most effective. 
 - By breaking the entire set of feature maps into smaller groups that have high squared-energy correlation, K-Means will be able to learn more discriminative filters. (Since 7x7 patches are extracted from the smaller groups of "group_size" = 8, the samples fed to K-Means are 7x7x8 = 392-dimensional, two orders of magnitude smaller than the original approach). 
-- The final ROC-AUC score for the test set after 45 epochs and a batch size of 100 was: **98.25%**
 
 Model 2 (1x1 Convolution Dimensionality Reduction)
 =========================
@@ -26,7 +25,7 @@ Model 2 (1x1 Convolution Dimensionality Reduction)
 
 The final tuned model architecture for Model 2 is as depicted below: 
 
-![cnn_architecture](https://github.com/cchinchristopherj/Right-Whale-Convolutional-Neural-Network/blob/master/Unsupervised-Learning/Images/cnn_architecture_unsup.png)
+![cnn_architecture](https://github.com/cchinchristopherj/Right-Whale-Convolutional-Neural-Network/blob/master/Unsupervised-Learning/Images/Model-1/cnn_architecture_unsup.png)
 
 Correct Usage
 =========================
