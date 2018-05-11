@@ -151,10 +151,25 @@ The final tuned model architecture is as depicted below:
 
 ![cnn_architecture](https://github.com/cchinchristopherj/Right-Whale-Convolutional-Neural-Network/blob/master/Images/cnn_architecture.png)
 
+Filter Visualization (0th Layer)
+=========================
+
+The filters of the 0th convolutional layer in CNNs (applied to the raw input images) are often "human-interpretable" and have patterns that are easy to correlate with patterns of the input images.
+
+![filters_sup](https://github.com/cchinchristopherj/Right-Whale-Convolutional-Neural-Network/blob/cchinchristopherj-patch-1/Images/filters_sup.png)
+
+*Note: Many patches appear to have patterns from the higher-intensity, brightly yellow-colored areas of the spectrogram containing a right whale upcall.*
+
 Results of Training
 =========================
 
 The CNN model was trained for 14 epochs and a batch size of 100 on a training set of 84000 audio files (42000 vertically-enhanced spectrograms and 42000 horizontally-enhanced spectrograms). Training took approximately 7 minutes on a Tesla K80 GPU (via FloydHub Cloud Service). The test set consisted of 10000 audio files (5000 vertically-enhanced spectrograms and 5000 horizontally-enhanced spectrograms). The loss and accuracy of the training set, and ROC-AUC score of the test set were evaluated by Keras for every epoch during training and depicted below. The final ROC-AUC score for the training set after 14 epochs was found to be 98.50%, while the ROC-AUC score for the test set was found to be 98.29%.
+
+- ROC-AUC Score vs Epoch (Graph)
+
+![AUC-Epoch_ModelSup](https://github.com/cchinchristopherj/Right-Whale-Convolutional-Neural-Network/blob/cchinchristopherj-patch-1/Images/Graphs/AUC-Epoch_ModelSup.png)
+
+- ROC-AUC Score vs Epoch (Table)
 
 | Epoch                 | Loss        | Accuracy    | ROC-AUC     | 
 |-----------------------|-------------|-------------|-------------|
@@ -173,4 +188,22 @@ The CNN model was trained for 14 epochs and a batch size of 100 on a training se
 | 13/14                 | 0.0810      | 0.9700      | 0.9796      | 
 | 14/14                 | 0.0812      | 0.9697      | 0.9709      | 
 
-**Test ROC_AUC Score = 0.9829**
+**Test ROC-AUC Score = 0.9829**
+
+ROC Curves
+------
+
+- Training Set ROC Curve vs Test Set ROC Curve
+![ROC_ModelSup_BP](https://github.com/cchinchristopherj/Right-Whale-Convolutional-Neural-Network/blob/cchinchristopherj-patch-1/Images/Graphs/ROC_ModelSup_BP.png)
+
+*Note: Predictions on the test set are made using the union of the predictions on the vertically-enhanced spectrograms and horizontally-enhanced spectrograms (BP=Both Predictions).*
+
+- Test Set ROC Curves
+
+![ROC_ModelSup_TestOnly](https://github.com/cchinchristopherj/Right-Whale-Convolutional-Neural-Network/blob/cchinchristopherj-patch-1/Images/Graphs/ROC_ModelSup_TestOnly.png)
+
+*Note: The three curves represent predictions only on the vertically-enhanced spectrograms in the test set (VP=Vertically-Enhanced Predictions, predictions only on the horizontally-enhanced spectrograms in the test set (HP=Horizontally-Enhanced Predictions), and the union of the predictions on both types of images (BP=Both Predictions).*
+
+- Training Set ROC Curve vs Test Set ROC Curves
+
+![ROC_ModelSup_All](https://github.com/cchinchristopherj/Right-Whale-Convolutional-Neural-Network/blob/cchinchristopherj-patch-1/Images/Graphs/ROC_ModelSup_All.png)

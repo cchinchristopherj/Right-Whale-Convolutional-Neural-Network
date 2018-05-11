@@ -9,7 +9,7 @@ Two different model architectures were created, in which filters for convolution
 - Model 1: Energy-Correlated Receptive Fields
 - Model 2: 1x1 Convolution Dimensionality Reduction
 
-Model 1 (Energy-Correlated Receptive Fields)
+Model 1 (Energy-Correlated Receptive Fields Grouping)
 =========================
 
 - After the output of the 0th convolutional layer is maxpooled, yielding an output of shape (batch_size,29,29,256), calculate the squared-energy correlation between all 256 feature maps
@@ -70,34 +70,65 @@ The filters of the 0th convolutional layer in CNNs (applied to the raw input ima
 Results of Training for Model 1
 =========================
 
-Model 1 was trained for 16 epochs and a batch size of 100 on a training set of 84000 audio files (42000 vertically-enhanced spectrograms and 42000 horizontally-enhanced spectrograms). Training took approximately 50 minutes on a Tesla K80 GPU (via FloydHub Cloud Service). The test set consisted of 10000 audio files (5000 vertically-enhanced spectrograms and 5000 horizontally-enhanced spectrograms). The loss and accuracy of the training set, and ROC-AUC score of the test set, are evaluated by Keras for every epoch during training and depicted below. The final ROC-AUC score for the training set after 16 epochs was found to be 96.07%, while the ROC-AUC score for the test set was found to be 95.97%.
+Model 1 was trained for 17 epochs and a batch size of 100 on a training set of 84000 audio files (42000 vertically-enhanced spectrograms and 42000 horizontally-enhanced spectrograms). Training took approximately 4 hours on a Tesla K80 GPU (via FloydHub Cloud Service). The test set consisted of 10000 audio files (5000 vertically-enhanced spectrograms and 5000 horizontally-enhanced spectrograms). The loss and accuracy of the training set, and ROC-AUC score of the test set, are evaluated by Keras for every epoch during training and depicted below. The final ROC-AUC score for the training set after 17 epochs was found to be 94.14%, while the ROC-AUC score for the test set was found to be 93.13%.
+
+- ROC-AUC Score vs Epoch (Graph)
+
+![AUC-Epoch_ModelUnsup1](https://github.com/cchinchristopherj/Right-Whale-Convolutional-Neural-Network/blob/cchinchristopherj-patch-1/Unsupervised-Learning/Images/Model-1/AUC-Epoch_ModelUnsup1.png)
+
+- ROC-AUC Score vs Epoch (Table)
 
 | Epoch                 | Loss        | Accuracy    | ROC-AUC     | 
 |-----------------------|-------------|-------------|-------------|
-| 1/16                  | 0.2313      | 0.9210      | 0.9354      | 
-| 2/16                  | 0.1953      | 0.9303      | 0.9370      | 
-| 3/16                  | 0.1870      | 0.9314      | 0.9420      | 
-| 4/16                  | 0.1802      | 0.9330      | 0.9439      | 
-| 5/16                  | 0.1768      | 0.9339      | 0.9368      | 
-| 6/16                  | 0.1728      | 0.9339      | 0.9405      | 
-| 7/16                  | 0.1720      | 0.9339      | 0.9419      | 
-| 8/16                  | 0.1710      | 0.9344      | 0.9472      | 
-| 9/16                  | 0.1686      | 0.9349      | 0.9383      | 
-| 10/16                 | 0.1661      | 0.9357      | 0.9491      | 
-| 11/16                 | 0.1650      | 0.9364      | 0.9375      | 
-| 12/16                 | 0.1636      | 0.9378      | 0.9476      | 
-| 13/16                 | 0.1623      | 0.9423      | 0.9395      | 
-| 14/16                 | 0.1597      | 0.9414      | 0.9437      | 
-| 15/16                 | 0.1594      | 0.9421      | 0.9433      | 
-| 16/16                 | 0.1592      | 0.9423      | 0.9411      | 
+| 1/17                  | 0.2438      | 0.9219      | 0.9020      | 
+| 2/17                  | 0.2095      | 0.9326      | 0.9150      | 
+| 3/17                  | 0.2040      | 0.9340      | 0.9144      | 
+| 4/17                  | 0.2018      | 0.9346      | 0.9078      | 
+| 5/17                  | 0.1998      | 0.9351      | 0.9269      | 
+| 6/17                  | 0.1969      | 0.9360      | 0.9134      | 
+| 7/17                  | 0.1959      | 0.9360      | 0.8939      | 
+| 8/17                  | 0.1934      | 0.9362      | 0.9277      | 
+| 9/17                  | 0.1939      | 0.9361      | 0.9044      | 
+| 10/17                 | 0.1918      | 0.9365      | 0.9256      | 
+| 11/17                 | 0.1931      | 0.9360      | 0.9320      | 
+| 12/17                 | 0.1904      | 0.9363      | 0.9226      | 
+| 13/17                 | 0.1897      | 0.9370      | 0.9127      | 
+| 14/17                 | 0.1875      | 0.9362      | 0.9307      | 
+| 15/17                 | 0.1898      | 0.9363      | 0.9278      | 
+| 16/17                 | 0.1895      | 0.9367      | 0.9316      | 
+| 17/17                 | 0.1874      | 0.9370      | 0.9044      | 
 
-**Test ROC_AUC Score = 0.9507**
+**Test ROC_AUC Score = 0.9313**
+
+ROC Curves for Model 1
+------
+
+- Training Set ROC Curve vs Test Set ROC Curve
+![ROC_ModelUnsup1_BP](https://github.com/cchinchristopherj/Right-Whale-Convolutional-Neural-Network/blob/cchinchristopherj-patch-1/Unsupervised-Learning/Images/Model-1/ROC_ModelUnsup1_BP.png)
+
+*Note: Predictions on the test set are made using the union of the predictions on the vertically-enhanced spectrograms and horizontally-enhanced spectrograms (BP=Both Predictions).*
+
+- Test Set ROC Curves
+
+![ROC_ModelUnsup1_TestOnly](https://github.com/cchinchristopherj/Right-Whale-Convolutional-Neural-Network/blob/cchinchristopherj-patch-1/Unsupervised-Learning/Images/Model-1/ROC_ModelUnsup1_TestOnly.png)
+
+*Note: The three curves represent predictions only on the vertically-enhanced spectrograms in the test set (VP=Vertically-Enhanced Predictions, predictions only on the horizontally-enhanced spectrograms in the test set (HP=Horizontally-Enhanced Predictions), and the union of the predictions on both types of images (BP=Both Predictions).*
+
+- Training Set ROC Curve vs Test Set ROC Curves
+
+![ROC_ModelUnsup1_All](https://github.com/cchinchristopherj/Right-Whale-Convolutional-Neural-Network/blob/cchinchristopherj-patch-1/Unsupervised-Learning/Images/Model-1/ROC_ModelUnsup1_All.png)
 
 Results of Training for Model 2
 =========================
 
 Model 2 was trained for 16 epochs and a batch size of 100 on a training set of 84000 audio files (42000 vertically-enhanced spectrograms and 42000 horizontally-enhanced spectrograms). Training took approximately 50 minutes on a Tesla K80 GPU (via FloydHub Cloud Service). The test set consisted of 10000 audio files (5000 vertically-enhanced spectrograms and 5000 horizontally-enhanced spectrograms). The loss and accuracy of the training set, and ROC-AUC score of the test set, are evaluated by Keras for every epoch during training and depicted below. The final ROC-AUC score for the training set after 16 epochs was found to be 96.07%, while the ROC-AUC score for the test set was found to be 95.97%.
 
+- ROC-AUC Score vs Epoch (Graph)
+
+![AUC-Epoch_ModelUnsup1](https://github.com/cchinchristopherj/Right-Whale-Convolutional-Neural-Network/blob/cchinchristopherj-patch-1/Unsupervised-Learning/Images/Model-2/AUC-Epoch_ModelUnsup2.png)
+
+- ROC-AUC Score vs Epoch (Table)
+
 | Epoch                 | Loss        | Accuracy    | ROC-AUC     | 
 |-----------------------|-------------|-------------|-------------|
 | 1/16                  | 0.2313      | 0.9210      | 0.9354      | 
@@ -119,3 +150,40 @@ Model 2 was trained for 16 epochs and a batch size of 100 on a training set of 8
 
 **Test ROC_AUC Score = 0.9507**
 
+ROC Curves for Model 2
+------
+
+- Training Set ROC Curve vs Test Set ROC Curve
+![ROC_ModelUnsup2_BP](https://github.com/cchinchristopherj/Right-Whale-Convolutional-Neural-Network/blob/cchinchristopherj-patch-1/Unsupervised-Learning/Images/Model-2/ROC_ModelUnsup2_BP.png)
+
+*Note: Predictions on the test set are made using the union of the predictions on the vertically-enhanced spectrograms and horizontally-enhanced spectrograms (BP=Both Predictions).*
+
+- Test Set ROC Curves
+
+![ROC_ModelUnsup2_TestOnly](https://github.com/cchinchristopherj/Right-Whale-Convolutional-Neural-Network/blob/cchinchristopherj-patch-1/Unsupervised-Learning/Images/Model-2/ROC_ModelUnsup2_TestOnly.png)
+
+*Note: The three curves represent predictions only on the vertically-enhanced spectrograms in the test set (VP=Vertically-Enhanced Predictions, predictions only on the horizontally-enhanced spectrograms in the test set (HP=Horizontally-Enhanced Predictions), and the union of the predictions on both types of images (BP=Both Predictions).*
+
+- Training Set ROC Curve vs Test Set ROC Curves
+
+![ROC_ModelUnsup2_All](https://github.com/cchinchristopherj/Right-Whale-Convolutional-Neural-Network/blob/cchinchristopherj-patch-1/Unsupervised-Learning/Images/Model-2/ROC_ModelUnsup2_All.png)
+
+Final Comparison: ROC-AUC Scores vs Epoch
+=========================
+
+![AUC-Epoch_All](https://github.com/cchinchristopherj/Right-Whale-Convolutional-Neural-Network/blob/cchinchristopherj-patch-1/Unsupervised-Learning/Images/AUC-Epoch_All.png)
+
+*Note: The three curves represent the ROC-AUC scores vs epoch for the supervised CNN, the unsupervised CNN using energy-correlated receptive field grouping, and the unsupervised CNN using 1x1 convolution dimensionality reduction, respectively.*
+
+References
+=========================
+
+Coates A., Ng A.Y. (2012) [Learning Feature Representations with K-Means.](https://www-cs.stanford.edu/~acoates/papers/coatesng_nntot2012.pdf) In: Montavon G., Orr G.B., Müller KR. (eds) Neural Networks: Tricks of the Trade. Lecture Notes in Computer Science, vol 7700. Springer, Berlin, Heidelberg
+
+Coates A., Ng A.Y. [Selecting receptive fields in deep networks.](http://robotics.stanford.edu/~ang/papers/nips11-SelectingReceptiveFields.pdf) In: Shawe-Taylor, J., Zemel, R., Bartlett, P., Pereira, F., Weinberger, K. (eds.) Advances in Neural Information Processing Systems 24, pp. 2528–2536. Curran Associates, Inc. (2011)
+
+Salamon J, Bello JP, Farnsworth A, Robbins M, Keen S, Klinck H, et al. (2016) [Towards the Automatic Classification of Avian Flight Calls for Bioacoustic Monitoring.](http://journals.plos.org/plosone/article/file?id=10.1371/journal.pone.0166866&type=printable) PLoS ONE 11(11): e0166866. doi:10.1371/journal.pone.0166866
+
+Lin M., Chen Q., Yan S. [Network In Network.](https://arxiv.org/pdf/1312.4400.pdf) *arXiv preprint arXiv:1312.4400*, 2014
+
+Knyazev B., Barth E., Martinetz T. [Recursive Autoconvolution for Unsupervised Learning of Convolutional Neural Networks.](https://arxiv.org/pdf/1606.00611.pdf) *arXiv preprint arXiv:1606.00611*, 2017
