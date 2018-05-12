@@ -147,7 +147,7 @@ As an example, the number of neurons in the fully-connected layer ("fc1" in the 
 **Best: Neurons = 200, Mean = 0.9633, Std = 0.003427**
 
 
-The final tuned model architecture is as depicted below: 
+The final model architecture was based off of the results of hyperparameter optimization, as well as the approach taken by June Zbontar (5th in the Competition) in [The Marinexplore and Cornell University Whale Detection Challenge.](https://www.kaggle.com/c/whale-detection-challenge) The final tuned architecture is depicted below: 
 
 ![cnn_architecture](https://github.com/cchinchristopherj/Right-Whale-Convolutional-Neural-Network/blob/master/Images/cnn_architecture.png)
 
