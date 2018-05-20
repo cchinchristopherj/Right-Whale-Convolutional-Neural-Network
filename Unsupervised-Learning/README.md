@@ -188,3 +188,5 @@ Culurciello E., Jin J., Dundar, A., Bates J. [An Analysis of the Connections Bet
 Lin M., Chen Q., Yan S. [Network In Network.](https://arxiv.org/pdf/1312.4400.pdf) *arXiv preprint arXiv:1312.4400*, 2014
 
 Knyazev B., Barth E., Martinetz T. [Recursive Autoconvolution for Unsupervised Learning of Convolutional Neural Networks.](https://arxiv.org/pdf/1606.00611.pdf) *arXiv preprint arXiv:1606.00611*, 2017
+
+Cakir E., Parascandalo G., Heittola T., Huttunen H.,Virtanen T. [Convolutional Recurrent Neural Networks for Polyphonic Sound Event Detection.](https://arxiv.org/abs/1702.06286) *arXiv preprint arXiv:1702.06286*, 2017
