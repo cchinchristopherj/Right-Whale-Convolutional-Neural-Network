@@ -10,6 +10,11 @@
 <link rel="stylesheet" href="main.css"/>
 <script src="compatibility.min.js"></script>
 <script src="theViewer.min.js"></script>
+<script type="text/javascript">
+    function zoom() {
+        document.body.style.zoom = "30%" 
+    }
+</script>
 <script>
 try{
 theViewer.defaultViewer = new theViewer.Viewer({});
@@ -17,7 +22,7 @@ theViewer.defaultViewer = new theViewer.Viewer({});
 </script>
 <title></title>
 </head>
-<body>
+<body onload ="zoom()">
 <div id="sidebar">
 <div id="outline">
 </div>
