@@ -1,13 +1,9 @@
-Whale Convolutional Neural Network (Supervised)
+Right Whale Detection Challenge Part I
 =========================
 
-Convolutional Neural Network to Recognize Right Whale Upcalls (via Standard Backpropagation)
+Convolutional Neural Network to Recognize Right Whale Upcalls (Baseline Model)
 
-The  purpose of this application was to detect right whales from hydrophone recordings by detecting the unique temporal evolution and spectral features of their characteristic upcalls. The dataset was made publicly available for the Kaggle challenge accompanying the Workshop on Machine Learning for Bioacoustics at ICML 2013. Concretely, the dataset consisted of 47841 2-second-long audio clips from recordings taken over four days that were annotated by an expert as either 1 (positive class indicating presence of a right whale upcall) or 0 (negative class indicating ambient noise and absence of an upcall). Following the precedent set by other state-of-the-art deep learning models designed for similar classification tasks, the 2-second audio clips were converted into spectrograms and features extracted from these images were used by a convolutional neural network to make predictions. It was found that an FFT size of 256 and overlap of 75% yielded an optimal balance of time and frequency resolution. 
-
-Uses the dataset and labels constructed for [Kaggle 2013 ICML Whale Challenge](https://www.kaggle.com/c/the-icml-2013-whale-challenge-right-whale-redux)
-
-The training dataset for [Kaggle 2013 ICML Whale Challenge](https://www.kaggle.com/c/the-icml-2013-whale-challenge-right-whale-redux) can be accessed [here](https://www.kaggle.com/c/the-icml-2013-whale-challenge-right-whale-redux/data) by selecting "train_2.zip" and clicking "Download"
+The  purpose of this application was to detect right whales from hydrophone recordings by detecting the unique temporal evolution and spectral features of their characteristic upcalls. The dataset was made publicly available for the [Kaggle challenge](https://www.kaggle.com/c/the-icml-2013-whale-challenge-right-whale-redux) accompanying the [Workshop on Machine Learning for Bioacoustics at ICML 2013](http://sabiod.univ-tln.fr/icml2013/challenge_description.html). Concretely, the dataset consisted of 47841 2-second-long audio clips from recordings taken over four days that were annotated by an expert as either 1 (positive class indicating presence of a right whale upcall) or 0 (negative class indicating ambient noise and absence of an upcall). Following the precedent set by other state-of-the-art deep learning models designed for similar classification tasks, the 2-second audio clips were converted into spectrograms and features extracted from these images were used by a convolutional neural network to make predictions. It was found that an FFT size of 256 and overlap of 75% yielded an optimal balance of time and frequency resolution. 
 
 With the competition having concluded, my goal was to discover alternative methodologies that could present advantages over the winning submissions. As a baseline to compare with future experimental work, I developed a Convolutional Neural Network (CNN) with hyperparameters based on those used by one of the leading competitors, Jure Zbontar.
 
@@ -19,17 +15,16 @@ Pre-Processing
 Both kinds of contrast enhancement were achieved by creating two moving average filters (denoted filter A and filter B), with the only difference between them being length: filter A had a length of 3 and filter B had a length of 32. (These values were determined through experimentation to yield spectrograms with the best time-frequency resolution). 
 
 Below are a set of three images depicting the effect of moving average filters of different lengths on an input signal.
-The original input signal is depicted below:
 
 ![filter_input](https://github.com/cchinchristopherj/Right-Whale-Convolutional-Neural-Network/blob/master/Images/filter_input.png)
 
-Moving average filter of length 3 applied: 
 ![filter_3](https://github.com/cchinchristopherj/Right-Whale-Convolutional-Neural-Network/blob/master/Images/filter_3.png)
 
-Moving average filter of length 51 applied: 
 ![filter_51](https://github.com/cchinchristopherj/Right-Whale-Convolutional-Neural-Network/blob/master/Images/filter_51.png)
 
-As demonstrated by the set of three images, moving average filters of greater length result in a higher degree of smoothing of the original input signal
+*Input and Filtered Output to an M-Point Moving Average Filter with M=3,51. Image Source: [Moving Average Filter (MA Filter)](https://www.gaussianwaves.com/2010/11/moving-average-filter-ma-filter-2/)*
+
+As demonstrated by the set of three images, moving average filters of greater length result in a higher degree of smoothing of the original input signal.
 
 For the temporal dimension, the following steps were then taken: first, each row of the spectrogram (representing the change in one frequency of the spectrogram over time) was convolved separately with filter A and with filter B. Since filter B had a much longer length than filter A, the values of the output of the convolution operation with filter B represented global averages for neighborhoods of pixels, while the output of the convolution with filter A represented local averages for adjacent pixels. Contrast enhancement was achieved by subtracting out these local averages from their corresponding rows, thereby emphasizing more significant temporal changes. 
 
@@ -38,6 +33,8 @@ For the frequency domain, the procedure is nearly identical: each column of the 
 This contrast enhancement pre-processing was a critically important step, not only because it facilitated feature extraction for the deep-learning model, but also because it performed what is known as “data augmentation.” Since supervised learning models, especially those that suffer from high variance, require large amounts of labeled data to learn an optimal function mapping from input to output and this labeled data can be very time and resource-expensive to generate (due to requiring an expert human annotator), researchers often artificially “augment” the size of their given training sets to alleviate this issue. 
 
 ![data_augment](https://github.com/cchinchristopherj/Right-Whale-Convolutional-Neural-Network/blob/master/Images/data_augment.png)
+
+*Example of Different Data Augmentation Techniques. Image Source: [Data augmentation-assisted deep learning of hand-drawn partially colored sketches for visual search](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0183838)*
 
 If the task, for example, is to classify words from a recording of speech, noise could be randomly added to the time series values of each sample. Since noise would not change what words were said, only the difficulty with which they are detected, each new sample would have the same label as the original sample, but act as a new source of information for the deep learning model to learn the relationship between input features and output class predictions. Alternatively, if the task is to classify images of cats, the images in the dataset could be translated, rotated, scaled, etc., so that transformed samples act as new sources of information, while retaining the same label as the samples they were derived from. Two advantages are therefore gained in both of these scenarios at no additional cost: the models become more robust to noise/translations/rotations/scaling, and no expert annotator is needed to provide new labels. 
 
@@ -113,15 +110,25 @@ A Convolutional Neural Network (CNN) was used to learn an optimal function mappi
 
 ![convolution_gif](https://github.com/cchinchristopherj/Right-Whale-Convolutional-Neural-Network/blob/master/Images/convolution_gif.gif)
 
+*Convolution Operation. Image Source: [Convolution](https://leonardoaraujosantos.gitbooks.io/artificial-inteligence/content/convolution.html)*
+
 Each convolutional layer consists of K convolutional filters - the graphic above depicts the result of the convolution operation between an input image and one of these filters: the filter is superimposed over a smaller patch of the image and a "matrix dot product" (elementwise multiplication and summation) is computed between the filter and patch. The result of the matrix dot product (a scalar) is stored in the relevant location of the output matrix, after which the filter is slid over to the next patch and the process is repeated. 
 
 The filters themselves can be thought of as feature extractors learned through backpropagation and gradient descent - during training, the neural network will learn more optimal sets of filters capable of extracting more informative features from the input images. 
 
-An additional layer implemented in CNNs that assists in the feature extraction process is known as a "max pooling" layer. These layers provide not only downsampling (reducing the height and width dimensions to lower the number of required parameters in the model) but also translation invariance. The max pooling operation itself can be considered similar to a convolutional layer in the sense that a "filter" is slid over an input image. The filter, however, does not perform a matrix dot product - instead, the maximum in each patch of the input image is determined and that maximum value is the value that is stored in the relevant location of the output matrix. 
+An additional layer implemented in CNNs that assists in the feature extraction process is known as a "max pooling" layer. These layers provide not only downsampling (reducing the height and width dimensions to lower the number of required parameters in the model) but also translation invariance. 
+
+![maxpool](https://github.com/cchinchristopherj/Right-Whale-Convolutional-Neural-Network/blob/master/Images/maxpool.png)
+
+*Max Pooling Operation. Image Source: [Max-pooling / Pooling](https://computersciencewiki.org/index.php/Max-pooling_/_Pooling)*
+
+The max pooling operation itself can be considered similar to a convolutional layer in the sense that a "filter" is slid over an input image. The filter, however, does not perform a matrix dot product - instead, the maximum in each patch of the input image is determined and that maximum value is the value that is stored in the relevant location of the output matrix. 
 
 The picture below displays a classic CNN architecture, in which the convolutional and max pooling layers function as (translation invariant) feature extractors and the fully-connected layers that follow function as the classifier: 
 
 ![cnn](https://github.com/cchinchristopherj/Right-Whale-Convolutional-Neural-Network/blob/master/Images/cnn.jpeg)
+
+*CNN Architecture. Image Source: [Understanding of Convolutional Neural Network (CNN) - Deep Learning](https://medium.com/@RaghavPrabhu/understanding-of-convolutional-neural-network-cnn-deep-learning-99760835f148)*
 
 Training Procedure
 =========================
@@ -221,7 +228,7 @@ With this model loaded, you can follow the procedure as described in training.py
 Note: Currently, code is not streamlined to predict the label of a new audio file not originating from train_2.zip (i.e. a new audio file from the user). A future implementation will most likely use sklearn's Pipeline to streamline this prediction process by automatically taking an input audio file, producing the vertically-enhanced and horizontally-enhanced spectrograms, feeding them into the CNN, and unioning the predicted labels to produce the final predicted label. 
 
 If you would like to replicate the process I used to train the CNN model, perform the following:
-First, download the training set "train_2.zip" from [here](https://www.kaggle.com/c/the-icml-2013-whale-challenge-right-whale-redux/data) to the desired directory on your computer.
+First, the training dataset for [Kaggle 2013 ICML Whale Challenge](https://www.kaggle.com/c/the-icml-2013-whale-challenge-right-whale-redux) can be accessed [here](https://www.kaggle.com/c/the-icml-2013-whale-challenge-right-whale-redux/data) by selecting "train_2.zip" and clicking "Download." Download the files to the desired directory on your computer.
 Then run:
 
     python training.py 
