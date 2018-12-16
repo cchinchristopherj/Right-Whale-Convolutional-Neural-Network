@@ -141,15 +141,6 @@ Training Procedure
 - The test set consisted of ~10% of the dataset unseen by the CNN model. For prediction, a vertically-enhanced and horizontally-enhanced spectrogram was produced for each audio file and fed into the CNN. A "union" approach was taken, i.e. if the vertically-enhanced input yielded 1 and the horizontally-enhanced input yielded 0, the final predicted label was 1. 
 - Due to the unbalance between the sizes of the positive class (right whale upcall) and negative class (ambient noise), with the negative class being significantly larger, accuracy is not as useful a metric for model evaluation. (For example, a model that consistently predicted the negative class would yield a high accuracy, but fail to ever predict the positive class). The Receiver Operating Characteristic (ROC) curve was instead chosen for evaluation, being a measure of the true positive rate vs false positive rate as the discrimination threshold of the binary classifier is varied. The area under the curve (AUC) is a single number metric of a binary classifier's ROC curve and it is this ROC-AUC score that is used for evaluation of the CNN model. 
 
-Filter Visualization (0th Layer)
-=========================
-
-The filters of the 0th convolutional layer in CNNs (applied to the raw input images) are often "human-interpretable" and have patterns that are easy to correlate with patterns of the input images.
-
-![filters_sup](https://github.com/cchinchristopherj/Right-Whale-Convolutional-Neural-Network/blob/master/Images/filters_sup.png)
-
-*Note: Many patches appear to have patterns from the higher-intensity, brightly yellow-colored areas of the spectrogram containing a right whale upcall.*
-
 Results of Tuning
 =========================
 
@@ -198,6 +189,17 @@ ROC Curves
 - Training Set ROC Curve vs Test Set ROC Curves
 
 ![ROC_ModelSup_All](https://github.com/cchinchristopherj/Right-Whale-Convolutional-Neural-Network/blob/master/Images/Graphs/ROC_ModelSup_All.png)
+
+Appendix: Filter Visualization (0th Layer)
+=========================
+
+The filters of the 0th convolutional layer in CNNs (applied to the raw input images) are often "human-interpretable" and have patterns that are easy to correlate with patterns of the input images.
+
+![filters_sup](https://github.com/cchinchristopherj/Right-Whale-Convolutional-Neural-Network/blob/master/Images/filters_sup.png)
+
+*Note: Many patches appear to have patterns from the higher-intensity, brightly yellow-colored areas of the spectrogram containing a right whale upcall.*
+
+*As a additional note, recall that these filters/centroids are learned from PCA-whitened patches of contrast-enhanced spectrogram images, thereby precluding direct comparison between patterns in the spectrogram images and patterns in the filters.* 
 
 Modules and Installation Instructions
 =========================
