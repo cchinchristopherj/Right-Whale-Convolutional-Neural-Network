@@ -16,11 +16,30 @@ The winning competitor, Nick Kridler, also used a pre-processing step to improve
 Pre-Processing
 =========================
 
-Both kinds of contrast enhancement were achieved by creating two moving average filters (denoted filter A and filter B), with the only difference between them being length: filter A had a length of 3 and filter B had a length of 32. (These values were determined through experimentation to yield spectrograms with the best time-frequency resolution). For the temporal dimension, the following steps were then taken: first, each row of the spectrogram (representing the change in one frequency of the spectrogram over time) was convolved separately with filter A and with filter B. Since filter B had a much longer length than filter A, the values of the output of the convolution operation with filter B represented global averages for neighborhoods of pixels, while the output of the convolution with filter A represented local averages for adjacent pixels. Contrast enhancement was achieved by subtracting out these local averages from their corresponding rows, thereby emphasizing more significant temporal changes. 
+Both kinds of contrast enhancement were achieved by creating two moving average filters (denoted filter A and filter B), with the only difference between them being length: filter A had a length of 3 and filter B had a length of 32. (These values were determined through experimentation to yield spectrograms with the best time-frequency resolution). 
+
+Below are a set of three images depicting the effect of moving average filters of different lengths on an input signal.
+The original input signal is depicted below:
+
+![filter_input](https://github.com/cchinchristopherj/Right-Whale-Convolutional-Neural-Network/blob/master/Images/filter_input.png)
+
+Moving average filter of length 3 applied: 
+![filter_3](https://github.com/cchinchristopherj/Right-Whale-Convolutional-Neural-Network/blob/master/Images/filter_3.png)
+
+Moving average filter of length 51 applied: 
+![filter_51](https://github.com/cchinchristopherj/Right-Whale-Convolutional-Neural-Network/blob/master/Images/filter_51.png)
+
+As demonstrated by the set of three images, moving average filters of greater length result in a higher degree of smoothing of the original input signal
+
+For the temporal dimension, the following steps were then taken: first, each row of the spectrogram (representing the change in one frequency of the spectrogram over time) was convolved separately with filter A and with filter B. Since filter B had a much longer length than filter A, the values of the output of the convolution operation with filter B represented global averages for neighborhoods of pixels, while the output of the convolution with filter A represented local averages for adjacent pixels. Contrast enhancement was achieved by subtracting out these local averages from their corresponding rows, thereby emphasizing more significant temporal changes. 
 
 For the frequency domain, the procedure is nearly identical: each column of the spectrogram (representing the power distribution of frequencies for one time step) is convolved separately with filter A and with filter B, the output of the convolution operation with filter A is subtracted from the output of the convolution with filter B, and the actual local averages subtracted from each corresponding row, thereby attaining contrast enhancement and emphasizing more significant differences within the frequency power distribution for each time step. 
 
-This contrast enhancement pre-processing was a critically important step, not only because it facilitated feature extraction for the deep-learning model, but also because it performed what is known as “data augmentation.” Since supervised learning models, especially those that suffer from high variance, require large amounts of labeled data to learn an optimal function mapping from input to output and this labeled data can be very time and resource-expensive to generate (due to requiring an expert human annotator), researchers often artificially “augment” the size of their given training sets to alleviate this issue. If the task, for example, is to classify words from a recording of speech, noise could be randomly added to the time series values of each sample. Since noise would not change what words were said, only the difficulty with which they are detected, each new sample would have the same label as the original sample, but act as a new source of information for the deep learning model to learn the relationship between input features and output class predictions. Alternatively, if the task is to classify images of cats, the images in the dataset could be translated, rotated, scaled, etc., so that transformed samples act as new sources of information, while retaining the same label as the samples they were derived from. Two advantages are therefore gained in both of these scenarios at no additional cost: the models become more robust to noise/translations/rotations/scaling, and no expert annotator is needed to provide new labels. 
+This contrast enhancement pre-processing was a critically important step, not only because it facilitated feature extraction for the deep-learning model, but also because it performed what is known as “data augmentation.” Since supervised learning models, especially those that suffer from high variance, require large amounts of labeled data to learn an optimal function mapping from input to output and this labeled data can be very time and resource-expensive to generate (due to requiring an expert human annotator), researchers often artificially “augment” the size of their given training sets to alleviate this issue. 
+
+![data_augment](https://github.com/cchinchristopherj/Right-Whale-Convolutional-Neural-Network/blob/master/Images/data_augment.png)
+
+If the task, for example, is to classify words from a recording of speech, noise could be randomly added to the time series values of each sample. Since noise would not change what words were said, only the difficulty with which they are detected, each new sample would have the same label as the original sample, but act as a new source of information for the deep learning model to learn the relationship between input features and output class predictions. Alternatively, if the task is to classify images of cats, the images in the dataset could be translated, rotated, scaled, etc., so that transformed samples act as new sources of information, while retaining the same label as the samples they were derived from. Two advantages are therefore gained in both of these scenarios at no additional cost: the models become more robust to noise/translations/rotations/scaling, and no expert annotator is needed to provide new labels. 
 
 The same advantages apply to the data augmentation achieved through contrast enhancement pre-processing: two new kinds of spectrogram images are produced from one original sample, effectively doubling the number of samples in the dataset: 47841 original spectrogram samples are transformed into 47841 frequency domain contrast-enhanced images and 47841 temporal domain contrast-enhanced images, yielding a new augmented dataset with 95682 spectrogram images. (After the pre-processing steps, the spectrograms are each of shape (50,59,1), i.e. there are 50 frequency bins, 59 time steps, and one channel with the magnitude of values in the matrix interpreted as colors in the image). 
 
@@ -92,6 +111,8 @@ Convolutional Neural Network
 
 A Convolutional Neural Network (CNN) was used to learn an optimal function mapping from input (spectrogram images) to output (class predictions). These models consist of "convolutional layers" which implement the convolution operation displayed graphically below:
 
+![convolution_gif](https://github.com/cchinchristopherj/Right-Whale-Convolutional-Neural-Network/blob/master/Images/convolution_gif.gif)
+
 Each convolutional layer consists of K convolutional filters - the graphic above depicts the result of the convolution operation between an input image and one of these filters: the filter is superimposed over a smaller patch of the image and a "matrix dot product" (elementwise multiplication and summation) is computed between the filter and patch. The result of the matrix dot product (a scalar) is stored in the relevant location of the output matrix, after which the filter is slid over to the next patch and the process is repeated. 
 
 The filters themselves can be thought of as feature extractors learned through backpropagation and gradient descent - during training, the neural network will learn more optimal sets of filters capable of extracting more informative features from the input images. 
@@ -99,6 +120,8 @@ The filters themselves can be thought of as feature extractors learned through b
 An additional layer implemented in CNNs that assists in the feature extraction process is known as a "max pooling" layer. These layers provide not only downsampling (reducing the height and width dimensions to lower the number of required parameters in the model) but also translation invariance. The max pooling operation itself can be considered similar to a convolutional layer in the sense that a "filter" is slid over an input image. The filter, however, does not perform a matrix dot product - instead, the maximum in each patch of the input image is determined and that maximum value is the value that is stored in the relevant location of the output matrix. 
 
 The picture below displays a classic CNN architecture, in which the convolutional and max pooling layers function as (translation invariant) feature extractors and the fully-connected layers that follow function as the classifier: 
+
+![cnn](https://github.com/cchinchristopherj/Right-Whale-Convolutional-Neural-Network/blob/master/Images/cnn.jpeg)
 
 Training Procedure
 =========================
